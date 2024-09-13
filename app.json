@@ -16,7 +16,8 @@
       "supportsTablet": true,
       "infoPlist": {
         "NSFaceIDUsageDescription": "This app uses the camera to login."
-      }
+      },
+      "bundleIdentifier": "com.sushi.transactionmodule"
     },
     "android": {
       "adaptiveIcon": {
@@ -45,6 +46,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "fbb1d77e-6eed-4190-85d8-fc76b5d17757"
+      }
     }
   }
 }
