@@ -1,5 +1,17 @@
 import { HistoryItem, MergedHistoryByDate } from "@/types/data.type";
 
+export const formatAmount = (
+  value: number,
+  type?: HistoryItem["type"],
+  symbol: string = "MYR"
+): string => {
+  const formattedValue = value.toFixed(2);
+
+  const sign = type ? (type === "credit" ? "+" : "-") : "";
+
+  return `${sign}${symbol} ${formattedValue}`;
+};
+
 export const mergeHistoryByDate = (
   history: HistoryItem[]
 ): MergedHistoryByDate[] => {

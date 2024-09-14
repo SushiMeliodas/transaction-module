@@ -6,7 +6,7 @@ import Timeline from "@/components/Timeline";
 const History = () => {
   return (
     // <SafeAreaView className="flex-1 bg-white" edges={["right", "left"]}>
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-white" edges={["right", "left", "top"]}>
       <ScrollView className="p-5">
         <Text className="text-4xl">History</Text>
         <Timeline />

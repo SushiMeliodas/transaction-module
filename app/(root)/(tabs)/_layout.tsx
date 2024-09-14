@@ -66,7 +66,7 @@ const Layout = () => {
         name="setting"
         options={{
           title: "Setting",
-          headerTitle: "History",
+          headerTitle: "Setting",
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabIcon name="settings" focused={focused} />
