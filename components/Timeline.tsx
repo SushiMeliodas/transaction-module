@@ -1,5 +1,6 @@
 import { useState, Fragment } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
+import { useSelector } from "react-redux";
 
 import { HistoryItem, MergedHistoryByDate } from "@/types/data.type";
 
@@ -91,9 +92,11 @@ const TimelineBranch = (props: TimelineBranchProps) => {
 const Timeline = (props: TimelineProps) => {
   const { className } = props;
 
+  const historyState = useSelector((state) => state);
+
   const timelineData = mergeHistoryByDate(history);
 
-  // console.log(timelineData);
+  console.log(historyState);
 
   return (
     <Card cardClassName={{ card: className }}>
