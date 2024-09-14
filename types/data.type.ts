@@ -3,4 +3,10 @@ export interface HistoryItem {
   date: string;
   description: string;
   type: "debit" | "credit";
+  reference: string;
+}
+
+export interface MergedHistoryByDate {
+  date: string;
+  items: HistoryItem[];
 }

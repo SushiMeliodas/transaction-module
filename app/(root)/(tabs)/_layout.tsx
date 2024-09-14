@@ -1,4 +1,4 @@
-import { Stack, Tabs } from "expo-router";
+import { Tabs } from "expo-router";
 import { View } from "react-native";
 import { TabIconProps } from "@/types/type";
 
@@ -54,7 +54,8 @@ const Layout = () => {
       <Tabs.Screen
         name="history"
         options={{
-          title: "History",
+          // title: "History",
+          headerTitle: "History",
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabIcon name="history" focused={focused} />
@@ -65,6 +66,7 @@ const Layout = () => {
         name="setting"
         options={{
           title: "Setting",
+          headerTitle: "History",
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabIcon name="settings" focused={focused} />
@@ -72,13 +74,6 @@ const Layout = () => {
         }}
       />
     </Tabs>
-    // <Stack>
-    //   <Stack.Screen
-    //     name="history"
-    //     options={{ headerShown: true, title: "History" }}
-    //   />
-    //   <Stack.Screen name="setting" options={{ headerShown: false }} />
-    // </Stack>
   );
 };
 
