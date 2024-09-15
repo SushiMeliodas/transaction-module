@@ -16,16 +16,18 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <Provider store={store}>
-      <SafeAreaProvider>
-        <StatusBar style="inverted" />
-        <Stack>
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          <Stack.Screen name="(root)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-      </SafeAreaProvider>
-    </Provider>
+    <>
+      <Provider store={store}>
+        <SafeAreaProvider>
+          <Stack>
+            <Stack.Screen name="index" options={{ headerShown: false }} />
+            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+            <Stack.Screen name="(root)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+        </SafeAreaProvider>
+      </Provider>
+      <StatusBar style="dark" />
+    </>
   );
 }

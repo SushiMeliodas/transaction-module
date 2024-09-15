@@ -52,7 +52,7 @@ const TimelineBranch = (props: TimelineBranchProps) => {
     <>
       <Text>{timeline.date}</Text>
       {timeline.data?.map((item, index) => (
-        <View className="w-full flex flex-row items-center">
+        <View key={index} className="w-full flex flex-row items-center">
           <View className="w-2/5">
             {item.type === "credit" && (
               <TouchableOpacity
@@ -124,11 +124,11 @@ const Timeline = (props: TimelineProps) => {
     if (!loading) dispatch(fetchHistory({ loadMore: true }));
   }, [history.items, loading]);
 
-  console.log(
-    historyState.history.items,
-    historyState.history.totalCount,
-    "Timeline"
-  );
+  // console.log(
+  //   historyState.history.items,
+  //   historyState.history.totalCount,
+  //   "Timeline"
+  // );
 
   useEffect(() => {
     dispatch(fetchHistory({}));

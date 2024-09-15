@@ -3,13 +3,18 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { authenticateAsync } from "expo-local-authentication";
 
+import { useLocalAuth } from "@/hooks/useLocalAuth";
+
 import ActionButton from "@/components/common/ActionButton";
 
 const Login = () => {
-  const onLoginPress = async () => {
-    const authRes = await authenticateAsync();
+  const { authenticate } = useLocalAuth();
 
-    if (authRes.success) return router.replace("/(root)/(tabs)/history");
+  const onLoginPress = async () => {
+    const authResult = await authenticate();
+
+    if (authResult && authResult.success)
+      return router.replace("/(root)/(tabs)/history");
   };
 
   return (

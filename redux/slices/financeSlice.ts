@@ -38,6 +38,7 @@ const financeSlice = createSlice({
         fetchHistory.fulfilled,
         (state, action: { payload: FetchHistoryResponse }) => {
           state.loading = false;
+          state.balance = action.payload.balance;
           state.history.items = action.payload.items;
           state.history.totalCount = action.payload.totalCount;
           state.history.isLastResult = action.payload.isLastResult;

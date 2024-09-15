@@ -39,6 +39,7 @@ export const fetchHistory = createAsyncThunk<
 
         return {
           data: {
+            balance: 3641.77,
             history: historyData,
             totalCount: historyData.length,
           },
@@ -48,6 +49,7 @@ export const fetchHistory = createAsyncThunk<
       const mergedHistory = mergeHistoryByDate(response.data.history);
 
       return {
+        balance: response.data.balance,
         items: mergedHistory,
         totalCount: response.data.totalCount,
         isLastResult,
