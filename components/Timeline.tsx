@@ -39,7 +39,7 @@ const TimelineBranch = (props: TimelineBranchProps) => {
   const onOpenDetailPress = (detail: HistoryItem) => {
     if (authState.isSensitiveDataVisible) {
       dispatch(financeSliceActions.setHistoryDetail(detail));
-      router.push("/(root)/history-detail");
+      router.navigate("/(root)/history-detail");
     }
   };
 
