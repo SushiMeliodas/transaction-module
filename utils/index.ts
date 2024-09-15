@@ -5,7 +5,7 @@ export const getTransColor = (
   variant: string = "bg"
 ) => {
   if (variant === "text")
-    return itemType === "credit" ? "text-green-600" : "text-red-600";
+    return itemType === "credit" ? "text-green-500" : "text-red-500";
 
   return itemType === "credit" ? "bg-green-500" : "bg-red-500";
 };

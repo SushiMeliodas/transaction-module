@@ -33,10 +33,11 @@ const HistoryDetail = () => {
           <View className="mb-6">
             <Text className="font-semibold text-2xl">Amount (MYR)</Text>
             <Text
-              className={`font-medium text-2xl ${getTransColor(
-                historyDetail.type,
-                "text"
-              )}`}
+              className={`font-medium text-2xl ${
+                historyDetail.type === "credit"
+                  ? "text-green-400"
+                  : "text-red-400"
+              }`}
             >
               {formatAmount(historyDetail.amount, historyDetail.type, "")}
             </Text>
