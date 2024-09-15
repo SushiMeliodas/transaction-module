@@ -7,10 +7,12 @@ const History = () => {
   return (
     // <SafeAreaView className="flex-1 bg-white" edges={["right", "left"]}>
     <SafeAreaView className="flex-1 bg-white" edges={["right", "left", "top"]}>
-      <ScrollView className="p-5">
+      <View className="p-5">
+        {/* <ScrollView className="p-5"> */}
         <Text className="text-4xl">History</Text>
         <Timeline />
-      </ScrollView>
+        {/* </ScrollView> */}
+      </View>
     </SafeAreaView>
   );
 };

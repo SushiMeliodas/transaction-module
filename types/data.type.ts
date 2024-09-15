@@ -8,5 +8,17 @@ export interface HistoryItem {
 
 export interface MergedHistoryByDate {
   date: string;
-  items: HistoryItem[];
+  data: HistoryItem[];
+}
+
+export interface FinanceState {
+  balance: number;
+  history: {
+    items: MergedHistoryByDate[];
+    totalCount: number;
+    details: HistoryItem;
+    isLastResult: boolean;
+  };
+  loading: boolean;
+  error: string | null | undefined;
 }

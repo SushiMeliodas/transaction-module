@@ -1,5 +1,17 @@
 import { HistoryItem, MergedHistoryByDate } from "@/types/data.type";
 
+export const waitForTimeout = (
+  callback?: () => void,
+  timer: number = 2000
+): Promise<T> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const result = callback?.();
+      resolve(result);
+    }, timer);
+  });
+};
+
 export const formatAmount = (
   value: number,
   type?: HistoryItem["type"],
@@ -28,6 +40,6 @@ export const mergeHistoryByDate = (
 
   // Convert the grouped object to an array and sort by date
   return Object.entries(groupedByDate)
-    .map(([date, items]) => ({ date, items }))
+    .map(([date, data]) => ({ date, data }))
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 };
