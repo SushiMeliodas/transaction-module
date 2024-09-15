@@ -27,11 +27,11 @@ const authSlice = createSlice({
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
-    setAuthenticatedData: (state, action: PayloadAction<HistoryItem>) => {
+    setAuthenticatedData: (state, action) => {
       state.isAuthenticated = true;
       state.isActive = true;
     },
-    setRevealSensitiveData: (state, action: PayloadAction<HistoryItem>) => {
+    setRevealSensitiveData: (state, action: PayloadAction<boolean>) => {
       state.isSensitiveDataVisible = true;
       state.isActive = true;
     },

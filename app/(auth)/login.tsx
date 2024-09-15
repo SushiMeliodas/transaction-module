@@ -1,20 +1,25 @@
 import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
-import { authenticateAsync } from "expo-local-authentication";
 
+import { useAppDispatch } from "@/hooks/useReduxHooks";
 import { useLocalAuth } from "@/hooks/useLocalAuth";
+
+import { authSliceActions } from "@/redux/slices/authSlice";
 
 import ActionButton from "@/components/common/ActionButton";
 
 const Login = () => {
   const { authenticate } = useLocalAuth();
+  const dispatch = useAppDispatch();
 
   const onLoginPress = async () => {
     const authResult = await authenticate();
 
     if (authResult && authResult.success)
-      return router.replace("/(root)/(tabs)/history");
+      dispatch(authSliceActions.setAuthenticatedData({}));
+
+    return router.replace("/(root)/(tabs)/history");
   };
 
   return (
@@ -25,7 +30,7 @@ const Login = () => {
         <ActionButton
           title="Login"
           onPress={onLoginPress}
-          className="w-10/12 mt-12"
+          className="w-10/12 mt-12 bg-slate-800"
         />
       </View>
     </SafeAreaView>

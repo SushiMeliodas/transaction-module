@@ -1,5 +1,15 @@
 import { HistoryItem, MergedHistoryByDate } from "@/types/data.type";
 
+export const getTransColor = (
+  itemType: HistoryItem["type"],
+  variant: string = "bg"
+) => {
+  if (variant === "text")
+    return itemType === "credit" ? "text-green-600" : "text-red-600";
+
+  return itemType === "credit" ? "bg-green-500" : "bg-red-500";
+};
+
 export const waitForTimeout = (
   callback?: () => void,
   timer: number = 2000
@@ -10,6 +20,20 @@ export const waitForTimeout = (
       resolve(result);
     }, timer);
   });
+};
+
+export const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+
+  // Create an options object for formatting
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "short", // Short month name
+    day: "numeric",
+  };
+
+  // Format the date
+  return date.toLocaleDateString("en-US", options);
 };
 
 export const formatAmount = (

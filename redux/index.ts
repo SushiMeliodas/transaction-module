@@ -1,9 +1,11 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
 import financeSlice from "./slices/financeSlice";
+import authSlice from "./slices/authSlice";
 
 const rootReducer = combineReducers({
   finance: financeSlice,
+  auth: authSlice,
 });
 
 const store = configureStore({

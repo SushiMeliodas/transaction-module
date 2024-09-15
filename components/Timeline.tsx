@@ -4,7 +4,6 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  RefreshControl,
   ActivityIndicator,
 } from "react-native";
 import { router } from "expo-router";
@@ -16,11 +15,10 @@ import { useAppDispatch, useAppSelector } from "@/hooks/useReduxHooks";
 
 import { HistoryItem, MergedHistoryByDate } from "@/types/data.type";
 
-import { history } from "@/constant";
-
-import { mergeHistoryByDate, formatAmount } from "@/utils";
+import { formatAmount, formatDate, getTransColor } from "@/utils";
 
 import Card from "./common/Card";
+import UnmaskText from "./common/UnmaskText";
 
 // Types
 interface TimelineProps {
@@ -36,21 +34,22 @@ const TimelineBranch = (props: TimelineBranchProps) => {
   const { timeline } = props;
 
   const dispatch = useAppDispatch();
+  const authState = useAppSelector((state) => state.auth);
 
   const onOpenDetailPress = (detail: HistoryItem) => {
-    dispatch(financeSliceActions.setHistoryDetail(detail));
-    router.push("/(root)/history-detail");
-  };
-
-  const transactionColor = (itemType: HistoryItem["type"]) => {
-    return itemType === "credit" ? "bg-green-500" : "bg-red-500";
+    if (authState.isSensitiveDataVisible) {
+      dispatch(financeSliceActions.setHistoryDetail(detail));
+      router.push("/(root)/history-detail");
+    }
   };
 
   // TODO: enhance the border while there's 2 items
 
   return (
     <>
-      <Text>{timeline.date}</Text>
+      <View className="border rounded-full p-1.5 bg-slate-800">
+        <Text className="text-white">{formatDate(timeline.date)}</Text>
+      </View>
       {timeline.data?.map((item, index) => (
         <View key={index} className="w-full flex flex-row items-center">
           <View className="w-2/5">
@@ -61,9 +60,14 @@ const TimelineBranch = (props: TimelineBranchProps) => {
                 }}
               >
                 <>
-                  <Text className="text-right">
-                    {formatAmount(item.amount, item.type)}
-                  </Text>
+                  <UnmaskText
+                    value={formatAmount(item.amount, item.type)}
+                    unmaskClassName={{
+                      main: "justify-end",
+                      text: `${getTransColor(item.type, "text")}`,
+                    }}
+                    hideMaskBtn
+                  />
                   <Text className="text-right">{item.description}</Text>
                 </>
               </TouchableOpacity>
@@ -78,7 +82,7 @@ const TimelineBranch = (props: TimelineBranchProps) => {
               }`}
             />
             <View
-              className={`w-4 h-4 ${transactionColor(
+              className={`w-4 h-4 ${getTransColor(
                 item.type
               )} rounded-full border-2 border-white`}
             />
@@ -98,7 +102,13 @@ const TimelineBranch = (props: TimelineBranchProps) => {
                 }}
               >
                 <>
-                  <Text>{formatAmount(item.amount, item.type)}</Text>
+                  <UnmaskText
+                    value={formatAmount(item.amount, item.type)}
+                    unmaskClassName={{
+                      text: `text-right ${getTransColor(item.type, "text")}`,
+                    }}
+                    hideMaskBtn
+                  />
                   <Text>{item.description}</Text>
                 </>
               </TouchableOpacity>
@@ -123,12 +133,6 @@ const Timeline = (props: TimelineProps) => {
   const loadMoreData = useCallback(() => {
     if (!loading) dispatch(fetchHistory({ loadMore: true }));
   }, [history.items, loading]);
-
-  // console.log(
-  //   historyState.history.items,
-  //   historyState.history.totalCount,
-  //   "Timeline"
-  // );
 
   useEffect(() => {
     dispatch(fetchHistory({}));

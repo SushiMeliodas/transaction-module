@@ -1,9 +1,9 @@
-import * as LocalAuthentication from "expo-local-authentication";
+import { authenticateAsync } from "expo-local-authentication";
 
 export const useLocalAuth = () => {
   const authenticate = async () => {
     try {
-      const authResult = await LocalAuthentication.authenticateAsync({
+      const authResult = await authenticateAsync({
         promptMessage: "Authenticate to continue",
         fallbackLabel: "Use Passcode",
       });
