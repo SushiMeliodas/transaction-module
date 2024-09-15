@@ -14,7 +14,7 @@ const History = () => {
 
   return (
     // <SafeAreaView className="flex-1 bg-white" edges={["right", "left"]}>
-    <SafeAreaView className="flex-1 bg-white" edges={["right", "left", "top"]}>
+    <SafeAreaView className="flex-1 " edges={["right", "left", "top"]}>
       <View className="p-5">
         <View className="flex-row justify-between">
           <Text className="text-lg font-semibold">Balance :</Text>

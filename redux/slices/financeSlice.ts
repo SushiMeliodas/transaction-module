@@ -27,6 +27,9 @@ const financeSlice = createSlice({
     setHistoryDetail: (state, action: PayloadAction<HistoryItem>) => {
       state.history.details = action.payload;
     },
+    resetState: (state, action: PayloadAction<undefined>) => {
+      return initialState;
+    },
   },
   extraReducers: (builder) => {
     // fetchHistory

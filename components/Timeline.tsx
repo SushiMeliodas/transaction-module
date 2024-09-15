@@ -10,8 +10,10 @@ import { router } from "expo-router";
 
 import { fetchHistory } from "@/redux/actions/financeActions";
 import { financeSliceActions } from "@/redux/slices/financeSlice";
+import { authSliceActions } from "@/redux/slices/authSlice";
 
 import { useAppDispatch, useAppSelector } from "@/hooks/useReduxHooks";
+import { useLocalAuth } from "@/hooks/useLocalAuth";
 
 import { HistoryItem, MergedHistoryByDate } from "@/types/data.type";
 
@@ -30,16 +32,36 @@ interface TimelineBranchProps {
 }
 
 // Internal Component
+const TimelineHeader = ({ header }: { header: string }) => {
+  return (
+    <View className="border rounded-full px-2 py-1 bg-slate-800">
+      <Text className="text-white">{header}</Text>
+    </View>
+  );
+};
+
 const TimelineBranch = (props: TimelineBranchProps) => {
   const { timeline } = props;
 
+  const { authenticate } = useLocalAuth();
   const dispatch = useAppDispatch();
   const authState = useAppSelector((state) => state.auth);
 
-  const onOpenDetailPress = (detail: HistoryItem) => {
+  const onOpenDetailPress = async (detail: HistoryItem) => {
+    if (!authState.isSensitiveDataVisible) {
+      const authRes = await authenticate();
+
+      if (authRes.success) {
+        dispatch(financeSliceActions.setHistoryDetail(detail));
+        dispatch(authSliceActions.setRevealSensitiveData(true));
+        router.navigate("/(root)/history-detail");
+        return;
+      }
+    }
+
     if (authState.isSensitiveDataVisible) {
       dispatch(financeSliceActions.setHistoryDetail(detail));
-      router.push("/(root)/history-detail");
+      router.navigate("/(root)/history-detail");
     }
   };
 
@@ -47,11 +69,12 @@ const TimelineBranch = (props: TimelineBranchProps) => {
 
   return (
     <>
-      <View className="border rounded-full p-1.5 bg-slate-800">
-        <Text className="text-white">{formatDate(timeline.date)}</Text>
-      </View>
+      <TimelineHeader header={formatDate(timeline.date)} />
       {timeline.data?.map((item, index) => (
-        <View key={index} className="w-full flex flex-row items-center">
+        <View
+          key={`${item.description} ${index}`}
+          className="w-full flex flex-row items-center"
+        >
           <View className="w-2/5">
             {item.type === "credit" && (
               <TouchableOpacity
@@ -166,7 +189,7 @@ const Timeline = (props: TimelineProps) => {
               <TimelineBranch timeline={timeline} />
             </Fragment>
           ))}
-          {history.isLastResult && <Text>End</Text>}
+          {history.isLastResult && <TimelineHeader header="End" />}
 
           {loading && (
             <View className="p-5 items-center">

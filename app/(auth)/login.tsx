@@ -17,7 +17,7 @@ const Login = () => {
     const authResult = await authenticate();
 
     if (authResult && authResult.success)
-      dispatch(authSliceActions.setAuthenticatedData({}));
+      dispatch(authSliceActions.setAuthenticatedData());
 
     return router.replace("/(root)/(tabs)/history");
   };
