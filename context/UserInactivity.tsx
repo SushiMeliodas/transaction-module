@@ -21,9 +21,12 @@ export const UserInactivityProvider = ({ children }: any) => {
 
   const handleAppStateChange = (nextAppState: any) => {
     // console.log("appState", appState.current, nextAppState);
-    console.log(authInactivityOnly, isAuthenticated, isSensitiveDataVisible);
+    // console.log(authInactivityOnly, isAuthenticated);
 
-    if (nextAppState === "inactive" && !authInactivityOnly) {
+    if (
+      (nextAppState === "inactive" || nextAppState === "background") &&
+      !authInactivityOnly
+    ) {
       setCameFromInactive(true);
       router.push("/(modal)/inactive");
     } else {
@@ -47,12 +50,7 @@ export const UserInactivityProvider = ({ children }: any) => {
     return () => {
       subscription.remove();
     };
-  }, [
-    authInactivityOnly,
-    isAuthenticated,
-    isSensitiveDataVisible,
-    cameFromInactive,
-  ]);
+  }, [authInactivityOnly, isAuthenticated, cameFromInactive]);
 
   return children;
 };

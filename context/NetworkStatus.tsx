@@ -1,32 +1,29 @@
 // NetworkStatusProvider.js
 import { useEffect } from "react";
 import NetInfo, { NetInfoState } from "@react-native-community/netinfo";
-import Toast from "react-native-toast-message";
+
+import useToast from "@/hooks/useToast";
 
 const NetworkStatusProvider = ({ children }: { children: React.ReactNode }) => {
-  useEffect(() => {
-    let errorToastId: void | undefined;
+  const { errorToast, successToast } = useToast();
 
+  useEffect(() => {
     const handleNetworkChange = (state: NetInfoState) => {
+      let isDisconnected = false;
+
       if (!state.isConnected) {
-        errorToastId = Toast.show({
-          type: "error",
-          position: "top",
-          text1: "No Internet Connection",
-          text2: "Please check your internet connection.",
-          visibilityTime: 0,
-          autoHide: false,
-        });
+        isDisconnected = true;
+
+        errorToast(
+          "No Internet Connection",
+          "Please check your internet connection.",
+          { visibilityTime: 0, autoHide: false }
+        );
       } else {
-        if (errorToastId) {
-          Toast.hide(errorToastId);
-          Toast.show({
-            type: "success",
-            position: "bottom",
-            text1: "Internet Connection Restored",
-            text2: "You are back online.",
-            visibilityTime: 4000,
-          });
+        if (isDisconnected) {
+          successToast("Internet Connection Restored", "You are back online.");
+
+          isDisconnected = false;
         }
       }
     };
