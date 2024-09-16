@@ -1,11 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { FinanceState, HistoryItem } from "@/types/data.type";
-import { FetchHistoryResponse } from "@/types/finance.type";
+import { AuthState } from "@/types/data.type";
 
-import { fetchHistory } from "../actions/financeActions";
-
-const initialState = {
+const initialState: AuthState = {
   user: {
     name: "John",
     email: "john.doe@example.com",
@@ -16,6 +13,7 @@ const initialState = {
   isBiometricAuthenticated: false,
   isSensitiveDataVisible: false,
   isActive: false,
+  isAuthenticating: false,
   loading: false,
   error: null,
 };
@@ -24,7 +22,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setLoading: (state, action: PayloadAction<boolean>) => {
+    setisAuthenticating: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
     setAuthenticatedData: (state, action: PayloadAction<undefined>) => {

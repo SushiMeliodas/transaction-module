@@ -87,9 +87,9 @@ const TimelineBranch = (props: TimelineBranchProps) => {
                     value={formatAmount(item.amount, item.type)}
                     unmaskClassName={{
                       main: "justify-end",
-                      text: "text-green-400",
                       // text: `${getTransColor(item.type, "text")}`,
                     }}
+                    textColor="text-green-500"
                     hideMaskBtn
                   />
                   <Text className="text-right">{item.description}</Text>
@@ -129,9 +129,10 @@ const TimelineBranch = (props: TimelineBranchProps) => {
                   <UnmaskText
                     value={formatAmount(item.amount, item.type)}
                     unmaskClassName={{
-                      text: "text-right text-red-400",
+                      text: "text-right",
                       // text: `text-right ${getTransColor(item.type, "text")}`,
                     }}
+                    textColor="text-red-500"
                     hideMaskBtn
                   />
                   <Text>{item.description}</Text>

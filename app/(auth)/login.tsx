@@ -16,10 +16,10 @@ const Login = () => {
   const onLoginPress = async () => {
     const authResult = await authenticate();
 
-    if (authResult && authResult.success)
+    if (authResult && authResult.success) {
       dispatch(authSliceActions.setAuthenticatedData());
-
-    return router.replace("/(root)/(tabs)/history");
+      return router.replace("/(root)/(tabs)/history");
+    }
   };
 
   return (

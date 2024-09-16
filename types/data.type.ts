@@ -22,3 +22,19 @@ export interface FinanceState {
   loading: boolean;
   error: string | null | undefined;
 }
+
+export interface AuthState {
+  user: {
+    name: string;
+    email: string;
+    phoneNumber: string;
+  };
+  isAuthenticated: boolean;
+  isBiometricSupported: boolean;
+  isBiometricAuthenticated: boolean;
+  isSensitiveDataVisible: boolean;
+  isActive: boolean;
+  isAuthenticating: boolean;
+  loading: boolean;
+  error: string | null;
+}

@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/useReduxHooks";
 
 import { authSliceActions } from "@/redux/slices/authSlice";
 
-import { FontAwesome6, FontAwesome } from "@expo/vector-icons";
+import { FontAwesome6 } from "@expo/vector-icons";
 
 interface UnmaskTextProps {
   value: string;
@@ -16,6 +16,7 @@ interface UnmaskTextProps {
     text?: string;
   };
   hideMaskBtn?: boolean;
+  textColor?: string;
 }
 
 const UnmaskText = (props: UnmaskTextProps) => {
@@ -27,6 +28,7 @@ const UnmaskText = (props: UnmaskTextProps) => {
       text: "",
     },
     hideMaskBtn = false,
+    textColor = "text-black",
   } = props;
 
   const { authenticate } = useLocalAuth();
@@ -63,7 +65,11 @@ const UnmaskText = (props: UnmaskTextProps) => {
 
   return (
     <View className={`flex-row items-center ${unmaskClassName.main}`}>
-      <Text className={`text-base text-black ${unmaskClassName.text}`}>
+      <Text
+        className={`text-base ${isMasked ? "text-black" : textColor} ${
+          unmaskClassName.text
+        }`}
+      >
         {displayText}
       </Text>
       {!hideMaskBtn && (

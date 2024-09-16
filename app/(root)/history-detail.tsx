@@ -35,8 +35,8 @@ const HistoryDetail = () => {
             <Text
               className={`font-medium text-2xl ${
                 historyDetail.type === "credit"
-                  ? "text-green-400"
-                  : "text-red-400"
+                  ? "text-green-500"
+                  : "text-red-500"
               }`}
             >
               {formatAmount(historyDetail.amount, historyDetail.type, "")}
