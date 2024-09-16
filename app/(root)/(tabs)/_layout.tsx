@@ -1,12 +1,7 @@
 import { Tabs } from "expo-router";
 import { View } from "react-native";
-import { TabIconProps } from "@/types/type";
 
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-
-// const TabIcon = ({ name, focused }: TabIconProps) => (
-//   <MaterialIcons name={name} size={24} color="white" />
-// );
 
 const TabIcon = ({ name, focused }: TabIconProps) => (
   <View
@@ -20,7 +15,7 @@ const TabIcon = ({ name, focused }: TabIconProps) => (
       //   className={`rounded-full w-12 h-12 items-center justify-center ${
       //     focused ? "bg-general-400" : ""
       //   }`}
-      className={`rounded-full w-12 h-12 items-center justify-center border-l-orange-600`}
+      className={`rounded-full w-12 h-12 items-center justify-center `}
     >
       <MaterialIcons name={name} size={40} color="black" />
     </View>
@@ -35,6 +30,9 @@ const Layout = () => {
         tabBarActiveTintColor: "white",
         tabBarInactiveTintColor: "white",
         tabBarShowLabel: false,
+        tabBarStyle: {
+          paddingBottom: 15,
+        },
         // tabBarStyle: {
         //   backgroundColor: "#333333",
         //   borderRadius: 50,

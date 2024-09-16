@@ -23,7 +23,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setisAuthenticating: (state, action: PayloadAction<boolean>) => {
-      state.loading = action.payload;
+      state.isAuthenticating = action.payload;
     },
     setAuthenticatedData: (state, action: PayloadAction<undefined>) => {
       state.isAuthenticated = true;
