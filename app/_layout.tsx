@@ -38,8 +38,8 @@ export default function RootLayout() {
           </UserInactivityProvider>
         </NetworkStatusProvider>
       </Provider>
-      <Toast topOffset={60} />
       <StatusBar style="dark" />
+      <Toast topOffset={60} />
     </>
   );
 }

@@ -8,8 +8,6 @@ import {
 import { useAppDispatch } from "./useReduxHooks";
 import useToast from "./useToast";
 
-import Toast from "react-native-toast-message";
-
 import { authSliceActions } from "@/redux/slices/authSlice";
 
 export const useLocalAuth = () => {
@@ -81,7 +79,7 @@ export const useLocalAuth = () => {
       // check all bio auth at once
       const isBiometricReady = await checkBiometricSetup();
 
-      if (!isBiometricReady) return;
+      if (!isBiometricReady) return { success: false };
 
       const authResult = await authenticateAsync({
         promptMessage: "Authenticate to continue",
