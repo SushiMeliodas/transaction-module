@@ -1,5 +1,6 @@
 import Toast, { ToastShowParams } from "react-native-toast-message";
 
+// Custom Style refer https://github.com/calintamas/react-native-toast-message/blob/main/docs/custom-layouts.md
 const useToast = () => {
   const toastOptions = (options?: ToastShowParams) => ({
     position: "top" as "top",
