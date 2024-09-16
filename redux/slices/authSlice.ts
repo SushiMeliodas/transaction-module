@@ -14,6 +14,7 @@ const initialState: AuthState = {
   isSensitiveDataVisible: false,
   isActive: false,
   isAuthenticating: false,
+  authInactivityOnly: false,
   loading: false,
   error: null,
 };
@@ -32,6 +33,9 @@ const authSlice = createSlice({
     setRevealSensitiveData: (state, action: PayloadAction<boolean>) => {
       state.isSensitiveDataVisible = action.payload;
       state.isActive = true;
+    },
+    setAuthActivity: (state, action: PayloadAction<boolean>) => {
+      state.authInactivityOnly = action.payload;
     },
     resetState: (state, action: PayloadAction<undefined>) => {
       return initialState;

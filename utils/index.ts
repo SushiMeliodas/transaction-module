@@ -1,3 +1,5 @@
+import moment from "moment";
+
 import { HistoryItem, MergedHistoryByDate } from "@/types/data.type";
 
 export const getTransColor = (
@@ -22,18 +24,15 @@ export const waitForTimeout = (
   });
 };
 
-export const formatDate = (dateString: string): string => {
-  const date = new Date(dateString);
+export const formatDate = (
+  dateString: string,
+  format: string = "D MMM YYYY"
+): string => {
+  // Parse the date string using moment
+  const date = moment(dateString);
 
-  // Create an options object for formatting
-  const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "short", // Short month name
-    day: "numeric",
-  };
-
-  // Format the date
-  return date.toLocaleDateString("en-US", options);
+  // Format the date using the provided format or default format
+  return date.format(format);
 };
 
 export const formatAmount = (

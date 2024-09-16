@@ -35,6 +35,7 @@ export interface AuthState {
   isSensitiveDataVisible: boolean;
   isActive: boolean;
   isAuthenticating: boolean;
+  authInactivityOnly: boolean;
   loading: boolean;
   error: string | null;
 }
