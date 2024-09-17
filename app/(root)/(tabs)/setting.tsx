@@ -28,6 +28,12 @@ const Setting = () => {
     },
   ];
 
+  const messages = [
+    { label: "Active duration:", value: "30 second" },
+    { label: "Reminder duration:", value: "10 second" },
+    { label: "Background duration:", value: "10 second" },
+  ];
+
   return (
     <SafeAreaView>
       <View className="p-4">
@@ -46,6 +52,17 @@ const Setting = () => {
               <Text className="text-lg font-semibold">{setting.label}</Text>
             </TouchableOpacity>
           ))}
+          <View className="mt-5">
+            {messages.map((message, index) => (
+              <View
+                key={message.label}
+                className="flex-row justify-between items-center mt-3"
+              >
+                <Text className="font-semibold text-base">{message.label}</Text>
+                <Text className="text-base">{message.value}</Text>
+              </View>
+            ))}
+          </View>
         </Card>
       </View>
     </SafeAreaView>

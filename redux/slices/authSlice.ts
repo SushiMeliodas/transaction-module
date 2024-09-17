@@ -32,10 +32,15 @@ const authSlice = createSlice({
     },
     setRevealSensitiveData: (state, action: PayloadAction<boolean>) => {
       state.isSensitiveDataVisible = action.payload;
-      state.isActive = true;
+      // state.isActive = true;
     },
+    // For user inactive push white screen
     setAuthActivity: (state, action: PayloadAction<boolean>) => {
       state.authInactivityOnly = action.payload;
+    },
+    // For user session
+    setAuthActive: (state, action: PayloadAction<boolean>) => {
+      state.isActive = action.payload;
     },
     resetState: (state, action: PayloadAction<undefined>) => {
       return initialState;

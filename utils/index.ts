@@ -24,6 +24,10 @@ export const waitForTimeout = (
   });
 };
 
+export const formatTime = (seconds: number) => {
+  return moment.utc(seconds * 1000).format("mm:ss");
+};
+
 export const formatDate = (
   dateString: string,
   format: string = "D MMM YYYY"

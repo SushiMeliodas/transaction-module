@@ -9,15 +9,15 @@ const TabIcon = ({ name, focused }: TabIconProps) => (
     //   focused ? "bg-general-300" : ""
     // }`}
     className={`flex flex-row justify-center items-center rounded-full 
-        border-l-orange-600`}
+        bg-general-300`}
   >
     <View
       //   className={`rounded-full w-12 h-12 items-center justify-center ${
       //     focused ? "bg-general-400" : ""
       //   }`}
-      className={`rounded-full w-12 h-12 items-center justify-center `}
+      className={`rounded-full w-6 h-6 items-center justify-center `}
     >
-      <MaterialIcons name={name} size={40} color="black" />
+      <MaterialIcons name={name} size={24} color="black" />
     </View>
   </View>
 );
@@ -29,10 +29,16 @@ const Layout = () => {
       screenOptions={{
         tabBarActiveTintColor: "white",
         tabBarInactiveTintColor: "white",
-        tabBarShowLabel: false,
-        tabBarStyle: {
-          paddingBottom: 15,
+        tabBarShowLabel: true,
+        tabBarLabelStyle: {
+          color: "black",
         },
+        tabBarStyle: {
+          height: 80,
+        },
+        // tabBarStyle: {
+        //   paddingBottom: 15,
+        // },
         // tabBarStyle: {
         //   backgroundColor: "#333333",
         //   borderRadius: 50,
@@ -52,7 +58,7 @@ const Layout = () => {
       <Tabs.Screen
         name="history"
         options={{
-          // title: "History",
+          title: "History",
           headerTitle: "History",
           headerShown: false,
           tabBarIcon: ({ focused }) => (
