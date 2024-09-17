@@ -12,6 +12,7 @@ import { formatTime } from "@/utils";
 
 import ModalBottomSheet from "@/components/ModalBottomSheet";
 
+// const EXPIRED_TIME = 900 * 1000;
 const EXPIRED_TIME = 30 * 1000;
 const REMINDER_TIME = 10 * 1000;
 const BACKGROUND_TIMER = 10 * 1000;

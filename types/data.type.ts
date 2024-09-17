@@ -42,3 +42,9 @@ export interface AuthState {
   loading: boolean;
   error: string | null;
 }
+
+export interface GeneralState {
+  hideTabBar: boolean;
+  loading: boolean;
+  error: string | null;
+}

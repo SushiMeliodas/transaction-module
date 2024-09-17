@@ -11,6 +11,7 @@ import { router } from "expo-router";
 import { fetchHistory } from "@/redux/actions/financeActions";
 import { financeSliceActions } from "@/redux/slices/financeSlice";
 import { authSliceActions } from "@/redux/slices/authSlice";
+import { generalSliceActions } from "@/redux/slices/generalSlice";
 
 import { useAppDispatch, useAppSelector } from "@/hooks/useReduxHooks";
 import useLocalAuth from "@/hooks/useLocalAuth";
@@ -180,6 +181,14 @@ const Timeline = (props: TimelineProps) => {
           nativeEvent.layoutMeasurement.height + nativeEvent.contentOffset.y >=
           nativeEvent.contentSize.height - 20;
 
+        const scrollY = nativeEvent.contentOffset.y;
+
+        if (scrollY > 50) {
+          dispatch(generalSliceActions.setHideTabBar(true));
+        } else {
+          dispatch(generalSliceActions.setHideTabBar(false));
+        }
+
         // Disabled refresh when max result
         if (history.isLastResult) return;
 
@@ -191,10 +200,10 @@ const Timeline = (props: TimelineProps) => {
         reActiveIdle();
       }}
       scrollEventThrottle={16}
-      className="p-0.5"
+      className="p-0.5" // mb-20 for end display
     >
       <Card cardClassName={{ card: className }}>
-        <View className="flex items-center">
+        <View className="flex items-center mb-20">
           {history.items.map((timeline, index) => (
             <Fragment key={timeline.date}>
               <TimelineBranch timeline={timeline} />
@@ -203,9 +212,8 @@ const Timeline = (props: TimelineProps) => {
           {history.isLastResult && <TimelineHeader header="End" />}
 
           {loading && (
-            <View className="p-5 items-center">
-              <ActivityIndicator size="small" color="#000" />
-              <Text>Loading more...</Text>
+            <View className="p-12 items-center">
+              <ActivityIndicator size="large" color="#000" />
             </View>
           )}
         </View>

@@ -2,10 +2,12 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
 import financeSlice from "./slices/financeSlice";
 import authSlice from "./slices/authSlice";
+import generalSlice from "./slices/generalSlice";
 
 const appReducer = combineReducers({
   finance: financeSlice,
   auth: authSlice,
+  general: generalSlice,
 });
 
 const rootReducer = (state: any, action: any) => {

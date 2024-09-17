@@ -54,7 +54,7 @@ export default function RootLayout() {
           </BottomSheetModalProvider>
         </GestureHandlerRootView>
       </Provider>
-      <StatusBar style="dark" />
+      <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
       <Toast topOffset={60} />
     </>
   );
