@@ -51,7 +51,8 @@ export const UserInactivityProvider = ({ children }: any) => {
     if (showActiveCheck) setShowActiveCheck(false); // Close active check modal
 
     // dispatch(authSliceActions.setAuthActive(false));
-    dispatch(authSliceActions.resetState());
+    // dispatch(authSliceActions.resetState());
+    dispatch(authSliceActions.logout());
 
     router.replace("/(auth)/login");
   };

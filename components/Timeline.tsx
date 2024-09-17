@@ -168,10 +168,6 @@ const Timeline = (props: TimelineProps) => {
 
   useEffect(() => {
     dispatch(fetchHistory({}));
-
-    // return () => {
-    //   second
-    // }
   }, []);
 
   return (

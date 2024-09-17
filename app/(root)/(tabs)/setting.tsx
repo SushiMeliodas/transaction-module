@@ -28,7 +28,7 @@ const Setting = () => {
   ];
 
   const messages = [
-    { label: "Active duration:", value: "30 second" },
+    { label: "Idle duration:", value: "30 second" },
     { label: "Reminder duration:", value: "10 second" },
     { label: "Background duration:", value: "10 second" },
   ];
