@@ -27,6 +27,17 @@ export interface ButtonProps extends TouchableOpacityProps {
   className?: string;
 }
 
+export interface UnmaskTextProps {
+  value: string;
+  maskCharacter?: string;
+  unmaskClassName?: {
+    main?: string;
+    text?: string;
+  };
+  hideMaskBtn?: boolean;
+  textColor?: string;
+}
+
 export interface ModalBottomSheetProps {
   title: string;
   message?: string;

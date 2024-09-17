@@ -3,7 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 
 import { useAppDispatch } from "@/hooks/useReduxHooks";
-import { useLocalAuth } from "@/hooks/useLocalAuth";
+import useLocalAuth from "@/hooks/useLocalAuth";
 
 import { authSliceActions } from "@/redux/slices/authSlice";
 

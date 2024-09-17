@@ -1,23 +1,15 @@
 import { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 
-import { useLocalAuth } from "@/hooks/useLocalAuth";
+import useLocalAuth from "@/hooks/useLocalAuth";
 import { useAppDispatch, useAppSelector } from "@/hooks/useReduxHooks";
+import useActivityTracker from "@/hooks/useActivityTracker";
 
 import { authSliceActions } from "@/redux/slices/authSlice";
 
-import { FontAwesome6 } from "@expo/vector-icons";
+import { UnmaskTextProps } from "@/types/component.type";
 
-interface UnmaskTextProps {
-  value: string;
-  maskCharacter?: string;
-  unmaskClassName?: {
-    main?: string;
-    text?: string;
-  };
-  hideMaskBtn?: boolean;
-  textColor?: string;
-}
+import { FontAwesome6 } from "@expo/vector-icons";
 
 const UnmaskText = (props: UnmaskTextProps) => {
   const {
@@ -31,6 +23,7 @@ const UnmaskText = (props: UnmaskTextProps) => {
     textColor = "text-black",
   } = props;
 
+  const { reActiveIdle } = useActivityTracker();
   const { authenticate } = useLocalAuth();
   const dispatch = useAppDispatch();
   const authState = useAppSelector((state) => state.auth);
@@ -51,6 +44,8 @@ const UnmaskText = (props: UnmaskTextProps) => {
       dispatch(authSliceActions.setRevealSensitiveData(true));
       setIsMasked(false);
     }
+
+    reActiveIdle();
   };
 
   const displayText = isMasked ? maskCharacter.repeat(12) : value;

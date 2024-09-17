@@ -4,6 +4,7 @@ import { AppState } from "react-native";
 import { useRouter } from "expo-router";
 
 import { useAppSelector, useAppDispatch } from "@/hooks/useReduxHooks";
+import useActivityTracker from "@/hooks/useActivityTracker";
 
 import { authSliceActions } from "@/redux/slices/authSlice";
 
@@ -20,8 +21,10 @@ export const UserInactivityProvider = ({ children }: any) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const authState = useAppSelector((state) => state.auth);
+  const { resetReactiveIdle } = useActivityTracker();
 
-  const { isAuthenticated, authInactivityOnly, isActive } = authState;
+  const { isAuthenticated, authInactivityOnly, isActive, isReactiveIdle } =
+    authState;
 
   const [cameFromInactive, setCameFromInactive] = useState<boolean>(false);
   const [showActiveCheck, setShowActiveCheck] = useState<boolean>(false);
@@ -38,9 +41,9 @@ export const UserInactivityProvider = ({ children }: any) => {
     clearInterval(intervalRef.current!);
     resetTime();
 
-    setShowActiveCheck(false); // Close active check modal
+    if (showActiveCheck) setShowActiveCheck(false); // Close active check modal
 
-    dispatch(authSliceActions.setAuthActive(false));
+    // dispatch(authSliceActions.setAuthActive(false));
     dispatch(authSliceActions.resetState());
 
     router.replace("/(auth)/login");
@@ -50,7 +53,7 @@ export const UserInactivityProvider = ({ children }: any) => {
     if (intervalRef.current) clearInterval(intervalRef.current);
     resetTime();
 
-    setShowActiveCheck(false); // Close active check modal
+    if (showActiveCheck) setShowActiveCheck(false); // Close active check modal
 
     dispatch(authSliceActions.setAuthActive(true)); // Ensure the timer starts again
   };
@@ -95,12 +98,12 @@ export const UserInactivityProvider = ({ children }: any) => {
     }
   };
 
-  const stopTimer = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null; // Optionally set the ref to null
-    }
-  };
+  // const stopTimer = () => {
+  //   if (intervalRef.current) {
+  //     clearInterval(intervalRef.current);
+  //     intervalRef.current = null; // Optionally set the ref to null
+  //   }
+  // };
 
   const resumeTimer = () => {
     if (isPaused.current) {
@@ -209,15 +212,23 @@ export const UserInactivityProvider = ({ children }: any) => {
     }
   }, [authInactivityOnly]);
 
-  // console.log(
-  //   secondsLeft,
-  //   timerRef.current,
-  //   intervalRef.current,
-  //   `isPaused: ${isPaused.current}`,
-  //   `isAuthenticated: ${isAuthenticated}`,
-  //   `authActivity: ${authInactivityOnly}`,
-  //   `isActive: ${isActive}`
-  // );
+  useEffect(() => {
+    if (isReactiveIdle) {
+      handleResetExpired();
+
+      resetReactiveIdle();
+    }
+  }, [isReactiveIdle]);
+
+  console.log(
+    secondsLeft,
+    timerRef.current,
+    intervalRef.current,
+    `isPaused: ${isPaused.current}`,
+    `isAuthenticated: ${isAuthenticated}`,
+    `authActivity: ${authInactivityOnly}`,
+    `isActive: ${isActive}`
+  );
 
   return (
     <>
@@ -234,9 +245,6 @@ export const UserInactivityProvider = ({ children }: any) => {
             </Text>
           </>
         }
-        message={`You will be logged out in ${formatTime(
-          secondsLeft
-        )} due to inactivity.`}
         open={showActiveCheck}
         hideClose
         onSubmit={handleResetExpired}

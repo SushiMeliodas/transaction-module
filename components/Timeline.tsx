@@ -13,7 +13,8 @@ import { financeSliceActions } from "@/redux/slices/financeSlice";
 import { authSliceActions } from "@/redux/slices/authSlice";
 
 import { useAppDispatch, useAppSelector } from "@/hooks/useReduxHooks";
-import { useLocalAuth } from "@/hooks/useLocalAuth";
+import useLocalAuth from "@/hooks/useLocalAuth";
+import useActivityTracker from "@/hooks/useActivityTracker";
 
 import { HistoryItem, MergedHistoryByDate } from "@/types/data.type";
 
@@ -43,6 +44,7 @@ const TimelineHeader = ({ header }: { header: string }) => {
 const TimelineBranch = (props: TimelineBranchProps) => {
   const { timeline } = props;
 
+  const { reActiveIdle } = useActivityTracker();
   const { authenticate } = useLocalAuth();
   const dispatch = useAppDispatch();
   const authState = useAppSelector((state) => state.auth);
@@ -63,6 +65,8 @@ const TimelineBranch = (props: TimelineBranchProps) => {
       dispatch(financeSliceActions.setHistoryDetail(detail));
       router.navigate("/(root)/history-detail");
     }
+
+    reActiveIdle();
   };
 
   // TODO: enhance the border while there's 2 items
@@ -150,6 +154,7 @@ const TimelineBranch = (props: TimelineBranchProps) => {
 const Timeline = (props: TimelineProps) => {
   const { className } = props;
 
+  const { reActiveIdle } = useActivityTracker();
   const dispatch = useAppDispatch();
   const historyState = useAppSelector((state) => state.finance);
 
@@ -181,6 +186,9 @@ const Timeline = (props: TimelineProps) => {
         if (isCloseToBottom && !loading) {
           loadMoreData();
         }
+      }}
+      onScrollBeginDrag={() => {
+        reActiveIdle();
       }}
       scrollEventThrottle={16}
       className="p-0.5"

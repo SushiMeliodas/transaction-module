@@ -10,7 +10,7 @@ import useToast from "./useToast";
 
 import { authSliceActions } from "@/redux/slices/authSlice";
 
-export const useLocalAuth = () => {
+const useLocalAuth = () => {
   const dispatch = useAppDispatch();
   const { errorToast } = useToast();
 
@@ -98,3 +98,4 @@ export const useLocalAuth = () => {
     authenticate,
   };
 };
+export default useLocalAuth;

@@ -1,18 +1,21 @@
 // NetworkStatusProvider.js
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import NetInfo, { NetInfoState } from "@react-native-community/netinfo";
+
+import { useAppDispatch } from "@/hooks/useReduxHooks";
 
 import useToast from "@/hooks/useToast";
 
 const NetworkStatusProvider = ({ children }: { children: React.ReactNode }) => {
   const { errorToast, successToast } = useToast();
+  const dispatch = useAppDispatch();
+
+  const isDisconnected = useRef<boolean>(false);
 
   useEffect(() => {
     const handleNetworkChange = (state: NetInfoState) => {
-      let isDisconnected = false;
-
       if (!state.isConnected) {
-        isDisconnected = true;
+        isDisconnected.current = true;
 
         errorToast(
           "No Internet Connection",
@@ -20,10 +23,10 @@ const NetworkStatusProvider = ({ children }: { children: React.ReactNode }) => {
           { visibilityTime: 0, autoHide: false }
         );
       } else {
-        if (isDisconnected) {
+        if (isDisconnected.current) {
           successToast("Internet Connection Restored", "You are back online.");
 
-          isDisconnected = false;
+          isDisconnected.current = false;
         }
       }
     };

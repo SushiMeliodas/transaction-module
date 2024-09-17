@@ -15,8 +15,7 @@ const Setting = () => {
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
-    dispatch(financeSliceActions.resetState());
-    dispatch(authSliceActions.resetState());
+    dispatch(authSliceActions.logout());
     router.replace("/(auth)/login");
   };
 

@@ -3,10 +3,20 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import financeSlice from "./slices/financeSlice";
 import authSlice from "./slices/authSlice";
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   finance: financeSlice,
   auth: authSlice,
 });
+
+const rootReducer = (state: any, action: any) => {
+  // console.log(state, "redux");
+  // Reset all state after logout
+  if (action.type === "auth/logout") {
+    state = undefined;
+  }
+
+  return appReducer(state, action);
+};
 
 const store = configureStore({
   reducer: rootReducer, // Root reducer
