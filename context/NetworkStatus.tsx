@@ -15,6 +15,9 @@ const NetworkStatusProvider = ({ children }: { children: React.ReactNode }) => {
 
   const isDisconnected = useRef<boolean>(false);
 
+  // Exclude route that needed redirect to login
+  const excludeRoute = ["/login", "/"];
+
   useEffect(() => {
     const handleNetworkChange = (state: NetInfoState) => {
       if (!state.isConnected) {
@@ -28,7 +31,7 @@ const NetworkStatusProvider = ({ children }: { children: React.ReactNode }) => {
 
         dispatch(authSliceActions.setLoginDisabled(true));
 
-        if (pathname !== "/login") {
+        if (!excludeRoute.includes(pathname)) {
           dispatch(authSliceActions.redirectLogin(true));
         }
       } else {
