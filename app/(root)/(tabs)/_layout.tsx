@@ -28,7 +28,7 @@ const Layout = () => {
           color: "black",
         },
         tabBarStyle: {
-          height: 80,
+          height: 85,
         },
       }}
     >

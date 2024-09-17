@@ -7,18 +7,9 @@ import {
   BottomSheetBackdrop,
 } from "@gorhom/bottom-sheet";
 
-import ActionButton from "./common/ActionButton";
+import { ModalBottomSheetProps } from "@/types/component.type";
 
-interface ModalBottomSheetProps {
-  title: string;
-  message: string;
-  content?: React.ReactNode;
-  open: boolean;
-  onClose?: () => void;
-  onSubmit?: () => void;
-  className?: string;
-  hideClose?: boolean;
-}
+import ActionButton from "./common/ActionButton";
 
 const ModalBottomSheet = (props: ModalBottomSheetProps) => {
   const { title, message, content, open, onClose, onSubmit, hideClose } = props;

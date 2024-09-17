@@ -26,3 +26,14 @@ export interface ButtonProps extends TouchableOpacityProps {
   IconRight?: React.ComponentType<any>;
   className?: string;
 }
+
+export interface ModalBottomSheetProps {
+  title: string;
+  message?: string;
+  content?: React.ReactNode;
+  open: boolean;
+  onClose?: () => void;
+  onSubmit?: () => void;
+  className?: string;
+  hideClose?: boolean;
+}
