@@ -36,8 +36,9 @@ export interface AuthState {
   isActive: boolean;
   isAuthenticating: boolean;
   authInactivityOnly: boolean;
-  isReturnLogin: boolean;
+  isRedirectLogin: boolean;
   isReactiveIdle: boolean;
+  isLoginDisabled: boolean;
   loading: boolean;
   error: string | null;
 }

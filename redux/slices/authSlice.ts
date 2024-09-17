@@ -15,8 +15,9 @@ const initialState: AuthState = {
   isActive: false,
   isAuthenticating: false,
   authInactivityOnly: false,
-  isReturnLogin: false,
+  isRedirectLogin: false,
   isReactiveIdle: false,
+  isLoginDisabled: false,
   loading: false,
   error: null,
 };
@@ -47,8 +48,11 @@ const authSlice = createSlice({
     setReactiveIdle: (state, action: PayloadAction<boolean>) => {
       state.isReactiveIdle = action.payload;
     },
-    setReturnLogin: (state, action: PayloadAction<undefined>) => {
-      state.isReturnLogin = true;
+    setLoginDisabled: (state, action: PayloadAction<boolean>) => {
+      state.isLoginDisabled = action.payload;
+    },
+    redirectLogin: (state, action: PayloadAction<boolean>) => {
+      state.isRedirectLogin = action.payload;
     },
     logout: (state, action: PayloadAction<undefined>) => {
       return initialState;

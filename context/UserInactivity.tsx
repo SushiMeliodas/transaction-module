@@ -23,8 +23,13 @@ export const UserInactivityProvider = ({ children }: any) => {
   const authState = useAppSelector((state) => state.auth);
   const { resetReactiveIdle } = useActivityTracker();
 
-  const { isAuthenticated, authInactivityOnly, isActive, isReactiveIdle } =
-    authState;
+  const {
+    isAuthenticated,
+    authInactivityOnly,
+    isActive,
+    isReactiveIdle,
+    isRedirectLogin,
+  } = authState;
 
   const [cameFromInactive, setCameFromInactive] = useState<boolean>(false);
   const [showActiveCheck, setShowActiveCheck] = useState<boolean>(false);
@@ -37,6 +42,7 @@ export const UserInactivityProvider = ({ children }: any) => {
   const backgroundTimerRef = useRef<NodeJS.Timeout | null>(null);
   const isReturnLogin = useRef<boolean>(false);
 
+  // Usecase: User idle expired pause timer/reset state and redirect to login
   const handleExpired = () => {
     clearInterval(intervalRef.current!);
     resetTime();
@@ -212,6 +218,7 @@ export const UserInactivityProvider = ({ children }: any) => {
     }
   }, [authInactivityOnly]);
 
+  // Usecase: reactive user idle when user perform action
   useEffect(() => {
     if (isReactiveIdle) {
       handleResetExpired();
@@ -219,6 +226,15 @@ export const UserInactivityProvider = ({ children }: any) => {
       resetReactiveIdle();
     }
   }, [isReactiveIdle]);
+
+  // Usecase: network error redirect to login
+  useEffect(() => {
+    if (isRedirectLogin) {
+      handleExpired();
+
+      dispatch(authSliceActions.redirectLogin(false));
+    }
+  }, [isRedirectLogin]);
 
   console.log(
     secondsLeft,
