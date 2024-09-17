@@ -209,15 +209,15 @@ export const UserInactivityProvider = ({ children }: any) => {
     }
   }, [authInactivityOnly]);
 
-  console.log(
-    secondsLeft,
-    timerRef.current,
-    intervalRef.current,
-    `isPaused: ${isPaused.current}`,
-    `isAuthenticated: ${isAuthenticated}`,
-    `authActivity: ${authInactivityOnly}`,
-    `isActive: ${isActive}`
-  );
+  // console.log(
+  //   secondsLeft,
+  //   timerRef.current,
+  //   intervalRef.current,
+  //   `isPaused: ${isPaused.current}`,
+  //   `isAuthenticated: ${isAuthenticated}`,
+  //   `authActivity: ${authInactivityOnly}`,
+  //   `isActive: ${isActive}`
+  // );
 
   return (
     <>

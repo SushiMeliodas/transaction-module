@@ -5,18 +5,12 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 const TabIcon = ({ name, focused }: TabIconProps) => (
   <View
-    // className={`flex flex-row justify-center items-center rounded-full ${
-    //   focused ? "bg-general-300" : ""
-    // }`}
     className={`flex flex-row justify-center items-center rounded-full 
-        bg-general-300`}
+        bg-general-300  p-0.5 ${
+          focused ? "border border-gray-800 shadow-md" : ""
+        }`}
   >
-    <View
-      //   className={`rounded-full w-12 h-12 items-center justify-center ${
-      //     focused ? "bg-general-400" : ""
-      //   }`}
-      className={`rounded-full w-6 h-6 items-center justify-center `}
-    >
+    <View className={`rounded-full w-6 h-6 items-center justify-center `}>
       <MaterialIcons name={name} size={24} color="black" />
     </View>
   </View>
@@ -36,23 +30,6 @@ const Layout = () => {
         tabBarStyle: {
           height: 80,
         },
-        // tabBarStyle: {
-        //   paddingBottom: 15,
-        // },
-        // tabBarStyle: {
-        //   backgroundColor: "#333333",
-        //   borderRadius: 50,
-        //   paddingBottom: 0, // ios only
-        //   overflow: "hidden",
-        //   marginHorizontal: 20,
-        //   marginBottom: 20,
-        //   height: 78,
-        //   display: "flex",
-        //   justifyContent: "space-between",
-        //   alignItems: "center",
-        //   flexDirection: "row",
-        //   position: "absolute",
-        // },
       }}
     >
       <Tabs.Screen

@@ -42,17 +42,7 @@ const Setting = () => {
 
       <View className="p-3">
         <Card>
-          {settings.map((setting, index) => (
-            <TouchableOpacity
-              key={setting.label}
-              className="border border-l-zinc-800 rounded-lg py-2 px-4 flex-row items-center justify-between"
-              onPress={setting.callback}
-            >
-              {setting.icon}
-              <Text className="text-lg font-semibold">{setting.label}</Text>
-            </TouchableOpacity>
-          ))}
-          <View className="mt-5">
+          <View className="mb-8">
             {messages.map((message, index) => (
               <View
                 key={message.label}
@@ -63,6 +53,17 @@ const Setting = () => {
               </View>
             ))}
           </View>
+
+          {settings.map((setting, index) => (
+            <TouchableOpacity
+              key={setting.label}
+              className="border border-l-zinc-800 rounded-lg py-2 px-4 flex-row items-center justify-between"
+              onPress={setting.callback}
+            >
+              {setting.icon}
+              <Text className="text-lg font-semibold">{setting.label}</Text>
+            </TouchableOpacity>
+          ))}
         </Card>
       </View>
     </SafeAreaView>
