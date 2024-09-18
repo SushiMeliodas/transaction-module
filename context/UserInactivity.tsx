@@ -211,7 +211,13 @@ export const UserInactivityProvider = ({ children }: any) => {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isActive, isAuthenticated, timerRef.current, isPaused.current]);
+  }, [
+    isActive,
+    isAuthenticated,
+    intervalRef.current,
+    timerRef.current,
+    isPaused.current,
+  ]);
 
   // Usecase: handle if auth is happening and active check show
   useEffect(() => {
@@ -238,15 +244,15 @@ export const UserInactivityProvider = ({ children }: any) => {
     }
   }, [isRedirectLogin]);
 
-  // console.log(
-  //   secondsLeft,
-  //   timerRef.current,
-  //   intervalRef.current,
-  //   `isPaused: ${isPaused.current}`,
-  //   `isAuthenticated: ${isAuthenticated}`,
-  //   `authActivity: ${authInactivityOnly}`,
-  //   `isActive: ${isActive}`
-  // );
+  console.log(
+    secondsLeft,
+    timerRef.current,
+    intervalRef.current,
+    `isPaused: ${isPaused.current}`,
+    `isAuthenticated: ${isAuthenticated}`,
+    `authActivity: ${authInactivityOnly}`,
+    `isActive: ${isActive}`
+  );
 
   return (
     <>
