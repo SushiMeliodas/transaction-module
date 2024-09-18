@@ -146,10 +146,13 @@ export const UserInactivityProvider = ({ children }: any) => {
   };
 
   const handleAppStateChange = (nextAppState: any) => {
-    // console.log("appState", appState.current, nextAppState);
+    console.log("appState", appState.current, nextAppState);
     // console.log(authInactivityOnly, isAuthenticated);
 
-    if (nextAppState === "inactive" && !authInactivityOnly) {
+    if (
+      (nextAppState === "inactive" || nextAppState === "background") &&
+      !authInactivityOnly
+    ) {
       pauseTimer();
 
       if (isAuthenticated) {
