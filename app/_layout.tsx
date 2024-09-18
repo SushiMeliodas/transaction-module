@@ -36,7 +36,10 @@ export default function RootLayout() {
                     />
                     <Stack.Screen
                       name="(auth)"
-                      options={{ headerShown: false }}
+                      options={{
+                        gestureEnabled: false, // Handle not allow login swipe back
+                        headerShown: false,
+                      }}
                     />
                     <Stack.Screen
                       name="(root)"

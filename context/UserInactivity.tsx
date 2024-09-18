@@ -144,46 +144,49 @@ export const UserInactivityProvider = ({ children }: any) => {
   };
 
   const handleAppStateChange = (nextAppState: any) => {
-    console.log("appState", appState.current, nextAppState);
+    // console.log("appState", appState.current, nextAppState);
     // console.log(authInactivityOnly, isAuthenticated);
 
-    if (
-      (nextAppState === "inactive" || nextAppState === "background") &&
-      !authInactivityOnly
-    ) {
-      pauseTimer();
+    if (isAuthenticated) {
+      if (
+        (nextAppState === "inactive" || nextAppState === "background") &&
+        !authInactivityOnly
+      ) {
+        pauseTimer();
 
-      if (isAuthenticated) {
         startBackgroundTimer();
-      }
+        // if (isAuthenticated) {
+        //   startBackgroundTimer();
+        // }
 
-      setCameFromInactive(true);
-      router.push("/(modal)/inactive");
-    } else {
-      if (authInactivityOnly) {
-        if (isAuthenticated) {
-          pauseTimer();
-        }
-
-        dispatch(authSliceActions.setAuthActivity(false));
+        setCameFromInactive(true);
+        router.push("/(modal)/inactive");
       } else {
-        resumeTimer();
+        if (authInactivityOnly) {
+          pauseTimer();
+          // if (isAuthenticated) {
+          //   pauseTimer();
+          // }
 
-        if (cameFromInactive) {
-          setCameFromInactive(false);
-          if (isReturnLogin.current) {
-            handleExpired();
-            isReturnLogin.current = false;
-          } else {
-            clearBackgroundTimer();
-            if (router.canGoBack()) {
-              router.back();
+          dispatch(authSliceActions.setAuthActivity(false));
+        } else {
+          resumeTimer();
+
+          if (cameFromInactive) {
+            setCameFromInactive(false);
+            if (isReturnLogin.current) {
+              handleExpired();
+              isReturnLogin.current = false;
+            } else {
+              clearBackgroundTimer();
+              if (router.canGoBack()) {
+                router.back();
+              }
             }
           }
         }
       }
     }
-
     appState.current = nextAppState;
   };
 
