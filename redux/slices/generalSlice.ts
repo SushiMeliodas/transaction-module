@@ -25,6 +25,7 @@ const generalSlice = createSlice({
   extraReducers: (builder) => {},
 });
 
+export const generalInitialState = initialState;
 export const generalSliceActions = generalSlice.actions;
 
 export default generalSlice.reducer;

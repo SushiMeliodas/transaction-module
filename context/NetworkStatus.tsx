@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import { usePathname } from "expo-router";
 import NetInfo, { NetInfoState } from "@react-native-community/netinfo";
 
-import { useAppDispatch } from "@/hooks/useReduxHooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/useReduxHooks";
 import { authSliceActions } from "@/redux/slices/authSlice";
 
 import useToast from "@/hooks/useToast";
@@ -12,6 +12,7 @@ const NetworkStatusProvider = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const { errorToast, successToast } = useToast();
   const dispatch = useAppDispatch();
+  const isLoginDisabled = useAppSelector((state) => state.auth.isLoginDisabled);
 
   const isDisconnected = useRef<boolean>(false);
 
@@ -20,7 +21,10 @@ const NetworkStatusProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const handleNetworkChange = (state: NetInfoState) => {
-      if (!state.isConnected) {
+      // console.log(`isConnected: ${state.isConnected}`);
+      // console.log(`isLoginDisabled: ${isLoginDisabled}`);
+
+      if (state.isConnected === false) {
         isDisconnected.current = true;
 
         errorToast(
@@ -29,7 +33,9 @@ const NetworkStatusProvider = ({ children }: { children: React.ReactNode }) => {
           { visibilityTime: 0, autoHide: false }
         );
 
-        dispatch(authSliceActions.setLoginDisabled(true));
+        if (!isLoginDisabled) {
+          dispatch(authSliceActions.setLoginDisabled(true));
+        }
 
         if (!excludeRoute.includes(pathname)) {
           dispatch(authSliceActions.redirectLogin(true));
@@ -38,7 +44,9 @@ const NetworkStatusProvider = ({ children }: { children: React.ReactNode }) => {
         if (isDisconnected.current) {
           successToast("Internet Connection Restored", "You are back online.");
 
-          dispatch(authSliceActions.setLoginDisabled(false));
+          if (isLoginDisabled) {
+            dispatch(authSliceActions.setLoginDisabled(false));
+          }
           isDisconnected.current = false;
         }
       }
@@ -49,7 +57,7 @@ const NetworkStatusProvider = ({ children }: { children: React.ReactNode }) => {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [isLoginDisabled]);
 
   return children;
 };

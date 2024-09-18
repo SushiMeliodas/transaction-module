@@ -50,8 +50,6 @@ export const UserInactivityProvider = ({ children }: any) => {
 
     if (showActiveCheck) setShowActiveCheck(false); // Close active check modal
 
-    // dispatch(authSliceActions.setAuthActive(false));
-    // dispatch(authSliceActions.resetState());
     dispatch(authSliceActions.logout());
 
     router.replace("/(auth)/login");
@@ -178,7 +176,9 @@ export const UserInactivityProvider = ({ children }: any) => {
             isReturnLogin.current = false;
           } else {
             clearBackgroundTimer();
-            if (router.canGoBack()) router.back();
+            if (router.canGoBack()) {
+              router.back();
+            }
           }
         }
       }
@@ -243,7 +243,7 @@ export const UserInactivityProvider = ({ children }: any) => {
     if (isRedirectLogin) {
       handleExpired();
 
-      dispatch(authSliceActions.redirectLogin(false));
+      // dispatch(authSliceActions.redirectLogin(false));
     }
   }, [isRedirectLogin]);
 

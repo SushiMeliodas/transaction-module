@@ -54,6 +54,7 @@ const financeSlice = createSlice({
   },
 });
 
+export const financeInitialState = initialState;
 export const financeSliceActions = financeSlice.actions;
 
 export default financeSlice.reducer;

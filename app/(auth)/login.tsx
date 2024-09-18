@@ -14,6 +14,8 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const isLoginDisabled = useAppSelector((state) => state.auth.isLoginDisabled);
 
+  // console.log(`isLoginDisabled: ${isLoginDisabled}`);
+
   const onLoginPress = async () => {
     const authResult = await authenticate();
 

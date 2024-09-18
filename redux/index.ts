@@ -1,8 +1,8 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
-import financeSlice from "./slices/financeSlice";
-import authSlice from "./slices/authSlice";
-import generalSlice from "./slices/generalSlice";
+import financeSlice, { financeInitialState } from "./slices/financeSlice";
+import authSlice, { authInitialState } from "./slices/authSlice";
+import generalSlice, { generalInitialState } from "./slices/generalSlice";
 
 const appReducer = combineReducers({
   finance: financeSlice,
@@ -12,6 +12,8 @@ const appReducer = combineReducers({
 
 const rootReducer = (state: any, action: any) => {
   // console.log(state, "redux");
+
+  // console.log(action.type, state?.auth.isLoginDisabled);
   // Reset all state after logout
   if (action.type === "auth/logout") {
     state = undefined;

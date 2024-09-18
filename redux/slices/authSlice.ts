@@ -64,6 +64,7 @@ const authSlice = createSlice({
   extraReducers: (builder) => {},
 });
 
+export const authInitialState = initialState;
 export const authSliceActions = authSlice.actions;
 
 export default authSlice.reducer;
