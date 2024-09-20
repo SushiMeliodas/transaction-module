@@ -5,6 +5,7 @@ import { useRouter } from "expo-router";
 
 import { useAppSelector, useAppDispatch } from "@/hooks/useReduxHooks";
 import useActivityTracker from "@/hooks/useActivityTracker";
+import useAuthorization from "@/hooks/useAuthorization";
 
 import { authSliceActions } from "@/redux/slices/authSlice";
 
@@ -18,11 +19,11 @@ const REMINDER_TIME = 10 * 1000;
 const BACKGROUND_TIMER = 10 * 1000;
 
 export const UserInactivityProvider = ({ children }: any) => {
-  const appState = useRef(AppState.currentState);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const authState = useAppSelector((state) => state.auth);
   const { resetReactiveIdle } = useActivityTracker();
+  const { logout } = useAuthorization();
 
   const {
     isAuthenticated,
@@ -31,6 +32,8 @@ export const UserInactivityProvider = ({ children }: any) => {
     isReactiveIdle,
     isRedirectLogin,
   } = authState;
+
+  const appState = useRef(AppState.currentState);
 
   const [cameFromInactive, setCameFromInactive] = useState<boolean>(false);
   const [showActiveCheck, setShowActiveCheck] = useState<boolean>(false);
@@ -50,9 +53,7 @@ export const UserInactivityProvider = ({ children }: any) => {
 
     if (showActiveCheck) setShowActiveCheck(false); // Close active check modal
 
-    dispatch(authSliceActions.logout());
-
-    router.replace("/(auth)/login");
+    logout();
   };
 
   const handleResetExpired = () => {

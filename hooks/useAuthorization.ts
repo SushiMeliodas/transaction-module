@@ -4,13 +4,15 @@ import {
   supportedAuthenticationTypesAsync,
   isEnrolledAsync,
 } from "expo-local-authentication";
+import { useRouter } from "expo-router";
 
 import { useAppDispatch } from "./useReduxHooks";
 import useToast from "./useToast";
 
 import { authSliceActions } from "@/redux/slices/authSlice";
 
-const useLocalAuth = () => {
+const useAuthorization = () => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const { errorToast } = useToast();
 
@@ -94,8 +96,20 @@ const useLocalAuth = () => {
     }
   };
 
+  const logout = () => {
+    dispatch(authSliceActions.logout());
+
+    // reset route history
+    if (router.canDismiss()) {
+      router.dismissAll();
+    }
+
+    router.replace("/(auth)/login");
+  };
+
   return {
     authenticate,
+    logout,
   };
 };
-export default useLocalAuth;
+export default useAuthorization;

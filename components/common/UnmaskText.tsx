@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 
-import useLocalAuth from "@/hooks/useLocalAuth";
+import useAuthorization from "@/hooks/useAuthorization";
 import { useAppDispatch, useAppSelector } from "@/hooks/useReduxHooks";
 import useActivityTracker from "@/hooks/useActivityTracker";
 
@@ -24,7 +24,7 @@ const UnmaskText = (props: UnmaskTextProps) => {
   } = props;
 
   const { reActiveIdle } = useActivityTracker();
-  const { authenticate } = useLocalAuth();
+  const { authenticate } = useAuthorization();
   const dispatch = useAppDispatch();
   const authState = useAppSelector((state) => state.auth);
 

@@ -14,7 +14,7 @@ import { authSliceActions } from "@/redux/slices/authSlice";
 import { generalSliceActions } from "@/redux/slices/generalSlice";
 
 import { useAppDispatch, useAppSelector } from "@/hooks/useReduxHooks";
-import useLocalAuth from "@/hooks/useLocalAuth";
+import useAuthorization from "@/hooks/useAuthorization";
 import useActivityTracker from "@/hooks/useActivityTracker";
 
 import { HistoryItem, MergedHistoryByDate } from "@/types/data.type";
@@ -46,7 +46,7 @@ const TimelineBranch = (props: TimelineBranchProps) => {
   const { timeline } = props;
 
   const { reActiveIdle } = useActivityTracker();
-  const { authenticate } = useLocalAuth();
+  const { authenticate } = useAuthorization();
   const dispatch = useAppDispatch();
   const authState = useAppSelector((state) => state.auth);
 

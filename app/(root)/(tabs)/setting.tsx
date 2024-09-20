@@ -1,22 +1,17 @@
-import { Text, View, ScrollView, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { router } from "expo-router";
 
-import { useAppDispatch } from "@/hooks/useReduxHooks";
-
-import { financeSliceActions } from "@/redux/slices/financeSlice";
-import { authSliceActions } from "@/redux/slices/authSlice";
+import useAuthorization from "@/hooks/useAuthorization";
 
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 import Card from "@/components/common/Card";
 
 const Setting = () => {
-  const dispatch = useAppDispatch();
+  const { logout } = useAuthorization();
 
   const handleLogout = () => {
-    dispatch(authSliceActions.logout());
-    router.replace("/(auth)/login");
+    logout();
   };
 
   const settings = [

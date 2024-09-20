@@ -3,14 +3,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 
 import { useAppDispatch, useAppSelector } from "@/hooks/useReduxHooks";
-import useLocalAuth from "@/hooks/useLocalAuth";
+import useAuthorization from "@/hooks/useAuthorization";
 
 import { authSliceActions } from "@/redux/slices/authSlice";
 
 import ActionButton from "@/components/common/ActionButton";
 
 const Login = () => {
-  const { authenticate } = useLocalAuth();
+  const { authenticate } = useAuthorization();
   const dispatch = useAppDispatch();
   const isLoginDisabled = useAppSelector((state) => state.auth.isLoginDisabled);
 
