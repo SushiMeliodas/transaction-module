@@ -56,6 +56,7 @@ const useAuthorization = () => {
         }
       };
 
+      // Combination of 3 checking
       const checkBiometricSetup = async () => {
         const hardwareAvailable = await checkHardwareAvailability();
         if (!hardwareAvailable) {

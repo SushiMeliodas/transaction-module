@@ -1,6 +1,12 @@
 import React from "react";
 import { TextInputProps, TouchableOpacityProps } from "react-native";
 
+interface ModalActionProps {
+  label: string;
+  callback: () => void;
+}
+
+// Main
 export interface CardProps {
   children?: React.ReactNode;
   title?: string;
@@ -46,5 +52,6 @@ export interface ModalBottomSheetProps {
   onClose?: () => void;
   onSubmit?: () => void;
   className?: string;
-  hideClose?: boolean;
+  showCloseIcon?: boolean;
+  actionProps?: ModalActionProps[];
 }

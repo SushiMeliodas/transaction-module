@@ -145,7 +145,7 @@ export const UserInactivityProvider = ({ children }: any) => {
   };
 
   const handleAppStateChange = (nextAppState: any) => {
-    // console.log("appState", appState.current, nextAppState);
+    console.log("appState", appState.current, nextAppState);
     // console.log(authInactivityOnly, isAuthenticated);
 
     if (isAuthenticated) {
@@ -265,6 +265,7 @@ export const UserInactivityProvider = ({ children }: any) => {
     <>
       {children}
       <ModalBottomSheet
+        open={showActiveCheck}
         title="Are you still there?"
         content={
           <>
@@ -276,9 +277,9 @@ export const UserInactivityProvider = ({ children }: any) => {
             </Text>
           </>
         }
-        open={showActiveCheck}
-        hideClose
-        onSubmit={handleResetExpired}
+        actionProps={[
+          { label: "Yep, still here!", callback: handleResetExpired },
+        ]}
       />
     </>
   );
