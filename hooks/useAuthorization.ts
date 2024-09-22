@@ -90,6 +90,9 @@ const useAuthorization = () => {
       });
 
       // dispatch(authSliceActions.setisAuthenticating(false));
+
+      dispatch(authSliceActions.setAuthActivity(false));
+
       return authResult;
     } catch (error) {
       // Handle errors

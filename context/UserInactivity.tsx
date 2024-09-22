@@ -3,6 +3,8 @@ import { useRef, useEffect, useState } from "react";
 import { AppState } from "react-native";
 import { useRouter } from "expo-router";
 
+import moment from "moment";
+
 import { useAppSelector, useAppDispatch } from "@/hooks/useReduxHooks";
 import useActivityTracker from "@/hooks/useActivityTracker";
 import useAuthorization from "@/hooks/useAuthorization";
@@ -15,7 +17,7 @@ import ModalBottomSheet from "@/components/ModalBottomSheet";
 
 // const EXPIRED_TIME = 900 * 1000;
 const EXPIRED_TIME = 30 * 1000;
-const REMINDER_TIME = 10 * 1000;
+const REMINDER_TIME = 25 * 1000;
 const BACKGROUND_TIMER = 10 * 1000;
 
 export const UserInactivityProvider = ({ children }: any) => {
@@ -36,7 +38,9 @@ export const UserInactivityProvider = ({ children }: any) => {
   const appState = useRef(AppState.currentState);
 
   const [cameFromInactive, setCameFromInactive] = useState<boolean>(false);
-  const [showActiveCheck, setShowActiveCheck] = useState<boolean>(false);
+  const [showActiveCheckModal, setShowActiveCheckModal] =
+    useState<boolean>(false);
+  const [showLoggedOffModal, setShowLoggedOffModal] = useState<boolean>(false);
   const [secondsLeft, setSecondsLeft] = useState<number>(EXPIRED_TIME);
 
   const timerRef = useRef<number>(EXPIRED_TIME);
@@ -46,12 +50,15 @@ export const UserInactivityProvider = ({ children }: any) => {
   const backgroundTimerRef = useRef<NodeJS.Timeout | null>(null);
   const isReturnLogin = useRef<boolean>(false);
 
+  const currentDateTime = moment().format("DD MMM YYYY, HH:mm");
+
   // Usecase: User idle expired pause timer/reset state and redirect to login
   const handleExpired = () => {
     clearInterval(intervalRef.current!);
     resetTime();
 
-    if (showActiveCheck) setShowActiveCheck(false); // Close active check modal
+    if (showActiveCheckModal) setShowActiveCheckModal(false); // Close active check modal
+    if (!showLoggedOffModal) setShowLoggedOffModal(true);
 
     logout();
   };
@@ -60,14 +67,9 @@ export const UserInactivityProvider = ({ children }: any) => {
     if (intervalRef.current) clearInterval(intervalRef.current);
     resetTime();
 
-    if (showActiveCheck) setShowActiveCheck(false); // Close active check modal
+    if (showActiveCheckModal) setShowActiveCheckModal(false); // Close active check modal
 
     dispatch(authSliceActions.setAuthActive(true)); // Ensure the timer starts again
-  };
-
-  // Display modal
-  const handleActiveConfirmation = () => {
-    setShowActiveCheck(true);
   };
 
   const resetTime = () => {
@@ -84,7 +86,7 @@ export const UserInactivityProvider = ({ children }: any) => {
       const secondsRemaining = Math.ceil(timerRef.current / 1000);
 
       if (timerRef.current === REMINDER_TIME) {
-        handleActiveConfirmation();
+        setShowActiveCheckModal(true);
       }
 
       if (timerRef.current <= REMINDER_TIME) {
@@ -146,7 +148,7 @@ export const UserInactivityProvider = ({ children }: any) => {
 
   const handleAppStateChange = (nextAppState: any) => {
     console.log("appState", appState.current, nextAppState);
-    // console.log(authInactivityOnly, isAuthenticated);
+    console.log(authInactivityOnly, isAuthenticated);
 
     if (isAuthenticated) {
       if (
@@ -169,7 +171,7 @@ export const UserInactivityProvider = ({ children }: any) => {
           //   pauseTimer();
           // }
 
-          dispatch(authSliceActions.setAuthActivity(false));
+          // dispatch(authSliceActions.setAuthActivity(false));
         } else {
           resumeTimer();
 
@@ -180,6 +182,7 @@ export const UserInactivityProvider = ({ children }: any) => {
               isReturnLogin.current = false;
             } else {
               clearBackgroundTimer();
+
               if (router.canGoBack()) {
                 router.back();
               }
@@ -228,7 +231,7 @@ export const UserInactivityProvider = ({ children }: any) => {
 
   // Usecase: handle if auth is happening and active check show
   useEffect(() => {
-    if (authInactivityOnly && showActiveCheck) {
+    if (authInactivityOnly && showActiveCheckModal) {
       handleResetExpired();
     }
   }, [authInactivityOnly]);
@@ -251,21 +254,23 @@ export const UserInactivityProvider = ({ children }: any) => {
     }
   }, [isRedirectLogin]);
 
-  // console.log(
-  //   secondsLeft,
-  //   timerRef.current,
-  //   intervalRef.current,
-  //   `isPaused: ${isPaused.current}`,
-  //   `isAuthenticated: ${isAuthenticated}`,
-  //   `authActivity: ${authInactivityOnly}`,
-  //   `isActive: ${isActive}`
-  // );
+  console.log(
+    secondsLeft,
+    timerRef.current,
+    intervalRef.current,
+    `isPaused: ${isPaused.current}`,
+    `isAuthenticated: ${isAuthenticated}`,
+    `authActivity: ${authInactivityOnly}`,
+    `isActive: ${isActive}`,
+    `showActiveCheckModal: ${showActiveCheckModal}`,
+    `showLoggedOffModal: ${showLoggedOffModal}`
+  );
 
   return (
     <>
       {children}
       <ModalBottomSheet
-        open={showActiveCheck}
+        open={showActiveCheckModal}
         title="Are you still there?"
         content={
           <>
@@ -280,6 +285,24 @@ export const UserInactivityProvider = ({ children }: any) => {
         actionProps={[
           { label: "Yep, still here!", callback: handleResetExpired },
         ]}
+      />
+      <ModalBottomSheet
+        open={showLoggedOffModal}
+        onClose={() => setShowLoggedOffModal(false)}
+        title="Session Timeout"
+        content={
+          <>
+            <Text className="text-white mb-5 text-xl">
+              You’ve been logged out due to inactivity or a network error.
+              Please log in again to continue.
+            </Text>
+            <Text className="text-white font-bold text-xl">
+              {currentDateTime}
+            </Text>
+          </>
+        }
+        hideAction
+        showCloseIcon
       />
     </>
   );

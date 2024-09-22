@@ -20,15 +20,17 @@ const ModalBottomSheet = (props: ModalBottomSheetProps) => {
     open,
     onClose,
     onSubmit,
-    showCloseIcon,
+    showCloseIcon = false,
+    hideAction = false,
     actionProps = [
       { label: "Yes", callback: onSubmit },
       { label: "No", callback: onClose },
     ],
+    modalHeight = 40,
   } = props;
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const snapPoints = useMemo(() => ["40%"], []);
+  const snapPoints = useMemo(() => [`${modalHeight}%`], [modalHeight]);
 
   const renderBackdrop = useCallback(
     (props: any) => (
@@ -45,7 +47,7 @@ const ModalBottomSheet = (props: ModalBottomSheetProps) => {
 
   useEffect(() => {
     if (!open) {
-      bottomSheetModalRef.current?.close();
+      bottomSheetModalRef.current?.dismiss();
     } else {
       bottomSheetModalRef.current?.present();
     }
@@ -68,32 +70,40 @@ const ModalBottomSheet = (props: ModalBottomSheetProps) => {
               onPress={onClose}
               className="flex w-full items-end px-2 pt-2 pb-1"
             >
-              <MaterialIcons name="close" size={28} color="white" />
+              <MaterialIcons
+                name="close"
+                size={28}
+                color="white"
+                style={{
+                  margin: 6,
+                }}
+              />
             </Pressable>
           )}
           <View className={showCloseIcon ? "px-5 pb-3 pt-2" : "p-5"}>
-            <Text className="text-3xl font-bold mb-3 text-white">{title}</Text>
+            <Text className="text-3xl font-bold mb-4 text-white">{title}</Text>
             {content ? (
               <View>{content}</View>
             ) : (
-              <Text className="text-white mb-5 text-xl">{message}</Text>
+              <Text className="text-white mb-5 text-xl h-fit">{message}</Text>
             )}
           </View>
           <View className="flex justify-between mt-auto mb-6 px-5 py-3">
-            {actionProps.map((actionProp, index) => {
-              if (index > actionProps.length) return;
+            {!hideAction &&
+              actionProps.map((actionProp, index) => {
+                if (index > actionProps.length) return;
 
-              return (
-                <ActionButton
-                  key={actionProp.label}
-                  onPress={actionProp.callback}
-                  bgVariant="white"
-                  textVariant="primary"
-                  title={actionProp.label}
-                  className={actionProps.length === index + 1 ? "" : "mb-4"}
-                />
-              );
-            })}
+                return (
+                  <ActionButton
+                    key={actionProp.label}
+                    onPress={actionProp.callback}
+                    bgVariant="white"
+                    textVariant="primary"
+                    title={actionProp.label}
+                    className={actionProps.length === index + 1 ? "" : "mb-4"}
+                  />
+                );
+              })}
           </View>
         </View>
       </BottomSheetView>
