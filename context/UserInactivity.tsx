@@ -147,8 +147,8 @@ export const UserInactivityProvider = ({ children }: any) => {
   };
 
   const handleAppStateChange = (nextAppState: any) => {
-    console.log("appState", appState.current, nextAppState);
-    console.log(authInactivityOnly, isAuthenticated);
+    // console.log("appState", appState.current, nextAppState);
+    // console.log(authInactivityOnly, isAuthenticated);
 
     if (isAuthenticated) {
       if (
@@ -254,17 +254,17 @@ export const UserInactivityProvider = ({ children }: any) => {
     }
   }, [isRedirectLogin]);
 
-  console.log(
-    secondsLeft,
-    timerRef.current,
-    intervalRef.current,
-    `isPaused: ${isPaused.current}`,
-    `isAuthenticated: ${isAuthenticated}`,
-    `authActivity: ${authInactivityOnly}`,
-    `isActive: ${isActive}`,
-    `showActiveCheckModal: ${showActiveCheckModal}`,
-    `showLoggedOffModal: ${showLoggedOffModal}`
-  );
+  // console.log(
+  //   secondsLeft,
+  //   timerRef.current,
+  //   intervalRef.current,
+  //   `isPaused: ${isPaused.current}`,
+  //   `isAuthenticated: ${isAuthenticated}`,
+  //   `authActivity: ${authInactivityOnly}`,
+  //   `isActive: ${isActive}`,
+  //   `showActiveCheckModal: ${showActiveCheckModal}`,
+  //   `showLoggedOffModal: ${showLoggedOffModal}`
+  // );
 
   return (
     <>

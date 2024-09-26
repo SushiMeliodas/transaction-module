@@ -4,14 +4,15 @@ import { useColorScheme } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import Toast from "react-native-toast-message";
 
 import store from "@/redux";
 
 import { UserInactivityProvider } from "@/context/UserInactivity";
 import { NetworkStatusProvider } from "@/context/NetworkStatus";
+import { AuthGuard } from "@/context/AuthGuard";
 
 import "react-native-reanimated";
 
@@ -27,7 +28,8 @@ export default function RootLayout() {
         <GestureHandlerRootView>
           <BottomSheetModalProvider>
             <NetworkStatusProvider>
-              <UserInactivityProvider>
+              <AuthGuard>
+                {/* <UserInactivityProvider> */}
                 <SafeAreaProvider>
                   <Stack>
                     <Stack.Screen
@@ -52,7 +54,8 @@ export default function RootLayout() {
                     <Stack.Screen name="+not-found" />
                   </Stack>
                 </SafeAreaProvider>
-              </UserInactivityProvider>
+                {/* </UserInactivityProvider> */}
+              </AuthGuard>
             </NetworkStatusProvider>
           </BottomSheetModalProvider>
         </GestureHandlerRootView>
