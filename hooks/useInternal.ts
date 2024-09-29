@@ -72,6 +72,7 @@ const useInterval = (
       intervalId.current = null;
       savedStopCallback.current?.();
       isRunning.current = false;
+      isPaused.current = false;
     }
   }, []);
 
