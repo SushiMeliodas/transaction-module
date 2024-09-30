@@ -4,7 +4,8 @@ import { router } from "expo-router";
 
 import { useAppSelector } from "@/hooks/useReduxHooks";
 
-import { formatAmount, getTransColor } from "@/utils";
+import { getTransColor } from "@/utils";
+import { formatAmount } from "@/utils/number";
 
 import ActionButton from "@/components/common/ActionButton";
 

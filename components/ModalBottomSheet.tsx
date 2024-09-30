@@ -60,6 +60,7 @@ const ModalBottomSheet = (props: ModalBottomSheetProps) => {
       snapPoints={snapPoints}
       handleComponent={null}
       enablePanDownToClose={false}
+      enableOverDrag={false}
       onDismiss={onClose}
       backdropComponent={renderBackdrop}
     >

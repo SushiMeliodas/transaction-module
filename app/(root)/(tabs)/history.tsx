@@ -3,7 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useAppSelector } from "@/hooks/useReduxHooks";
 
-import { formatAmount } from "@/utils";
+import { formatAmount } from "@/utils/number";
 
 import Timeline from "@/components/Timeline";
 import UnmaskText from "@/components/common/UnmaskText";
