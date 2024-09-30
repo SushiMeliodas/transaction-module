@@ -11,7 +11,7 @@ import useAuthorization from "@/hooks/useAuthorization";
 
 import { authSliceActions } from "@/redux/slices/authSlice";
 
-import { formatTime } from "@/utils";
+import { formatTime } from "@/utils/datetime";
 
 import ModalBottomSheet from "@/components/ModalBottomSheet";
 

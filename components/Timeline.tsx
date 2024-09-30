@@ -19,7 +19,9 @@ import useActivityTracker from "@/hooks/useActivityTracker";
 
 import { HistoryItem, MergedHistoryByDate } from "@/types/data.type";
 
-import { formatAmount, formatDate, getTransColor } from "@/utils";
+import { getTransColor } from "@/utils";
+import { formatAmount } from "@/utils/number";
+import { formatDate } from "@/utils/datetime";
 
 import Card from "./common/Card";
 import UnmaskText from "./common/UnmaskText";

@@ -11,13 +11,13 @@ import useInterval from "@/hooks/useInternal";
 
 import { authSliceActions } from "@/redux/slices/authSlice";
 
-import { formatTime } from "@/utils";
+import { formatTime } from "@/utils/datetime";
 
 import ModalBottomSheet from "@/components/ModalBottomSheet";
 
 // const EXPIRED_TIME = 900 * 1000;
 const EXPIRED_TIME = 30 * 1000;
-const REMINDER_TIME = 10 * 1000;
+const REMINDER_TIME = 25 * 1000;
 const BACKGROUND_TIMER = 10 * 1000;
 
 export const AuthGuard = ({ children }: any) => {
@@ -50,7 +50,9 @@ export const AuthGuard = ({ children }: any) => {
     useState<boolean>(false);
   const [showLoggedOffModal, setShowLoggedOffModal] = useState<boolean>(false);
 
-  const currentDateTime = moment().format("DD MMM YYYY, HH:mm");
+  // Moment
+  const currentDate = moment();
+  const currentDateTime = currentDate.format("DD MMM YYYY, HH:mm");
 
   // User activity counter
   const sessionExpired = () => {
@@ -112,7 +114,7 @@ export const AuthGuard = ({ children }: any) => {
     pause: pauseActiveTimer,
     resume: resumeActiveTimer,
     stop: stopActiveTimer,
-    isRunning: isActiveRunning,
+    // isRunning: isActiveRunning,
     isPaused: isActivePaused,
   } = useInterval({ onStart: onActiveStart, onResume: onActiveResume });
 
@@ -145,9 +147,9 @@ export const AuthGuard = ({ children }: any) => {
         nextAppState === "inactive" || nextAppState === "background";
 
       if (isInactiveOrBackground && !authInactivityOnly) {
-        // if (showActiveCheckModal) {
-        //   setShowActiveCheckModal(false);
-        // }
+        if (showActiveCheckModal) {
+          setShowActiveCheckModal(false);
+        }
         // stopActiveTimer();
         pauseActiveTimer();
         startBackgroundTimer();

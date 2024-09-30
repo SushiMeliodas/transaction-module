@@ -5,7 +5,8 @@ import { FetchHistoryParams, FetchHistoryResponse } from "@/types/finance.type";
 
 import { history } from "@/constant";
 
-import { waitForTimeout, mergeHistoryByDate } from "@/utils";
+import { waitForTimeout } from "@/utils";
+import { mergeHistoryByDate } from "@/utils/object";
 
 export const fetchHistory = createAsyncThunk<
   FetchHistoryResponse,
