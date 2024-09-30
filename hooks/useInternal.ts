@@ -1,93 +1,97 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 
 interface UseIntervalOptions {
-  onStart?: () => void; // Callback when the interval starts
-  onPause?: () => void; // Callback when the interval pauses
-  onResume?: () => void; // Callback when the interval resumes
-  onStop?: () => void; // Callback when the interval stops
+  onTick?: () => void;
+  onStart?: () => void;
+  onPause?: () => void;
+  onResume?: () => void;
+  onStop?: () => void;
 }
 
 const useInterval = (
-  { onStart, onPause, onResume, onStop }: UseIntervalOptions,
+  { onTick, onStart, onPause, onResume, onStop }: UseIntervalOptions,
   initialDelay = 1000
 ) => {
-  const savedStartCallback = useRef(onStart);
-  const savedPauseCallback = useRef(onPause);
-  const savedResumeCallback = useRef(onResume);
-  const savedStopCallback = useRef(onStop);
+  const [delay, setDelay] = useState<number | null>(initialDelay);
+  const [isRunning, setIsRunning] = useState<boolean>(false);
+  const [isPaused, setIsPaused] = useState<boolean>(false);
 
+  const savedCallback = useRef<() => void>();
   const intervalId = useRef<NodeJS.Timeout | null>(null);
-  const isRunning = useRef(false);
-  const isPaused = useRef<boolean>(false);
 
-  // Store the latest callbacks
+  // Remember the latest callback
   useEffect(() => {
-    savedStartCallback.current = onStart;
-    savedPauseCallback.current = onPause;
-    savedResumeCallback.current = onResume;
-    savedStopCallback.current = onStop;
-  }, [onStart, onPause, onResume, onStop]);
+    savedCallback.current = onTick;
+  }, [onTick]);
 
-  // Start the interval
+  // Set up the interval
+  useEffect(() => {
+    function tick() {
+      savedCallback.current?.();
+    }
+
+    if (delay !== null && isRunning && !isPaused) {
+      intervalId.current = setInterval(tick, delay);
+      return () => {
+        if (intervalId.current) clearInterval(intervalId.current);
+      };
+    }
+  }, [delay, isRunning, isPaused]);
+
   const start = useCallback(() => {
-    if (isPaused.current) return;
-
-    if (!isRunning.current) {
-      // console.log("start");
-      intervalId.current = setInterval(() => {
-        savedStartCallback.current?.();
-      }, initialDelay);
-      isRunning.current = true;
+    if (!isRunning && !isPaused) {
+      setIsRunning(true);
+      onStart?.();
+      console.log("interval: start");
     }
-  }, [initialDelay]);
+  }, [isRunning, isPaused, onStart]);
 
-  // Pause the interval
   const pause = useCallback(() => {
-    if (intervalId.current) {
-      // console.log("pause");
-      clearInterval(intervalId.current);
-      savedPauseCallback.current?.();
-      isRunning.current = false;
-      isPaused.current = true;
+    console.log(isRunning, isPaused, "HALO");
+    if (isRunning && !isPaused) {
+      setIsPaused(true);
+      if (intervalId.current) {
+        clearInterval(intervalId.current);
+        intervalId.current = null;
+      }
+      onPause?.();
+      console.log("interval: pause");
     }
-  }, []);
+  }, [isRunning, isPaused, onPause]);
 
-  // Resume the interval
   const resume = useCallback(() => {
-    if (!isRunning.current) {
-      // console.log("resume");
-      intervalId.current = setInterval(() => {
-        savedResumeCallback.current?.();
-      }, initialDelay);
-      isRunning.current = true;
-      isPaused.current = false;
+    if (isRunning && isPaused) {
+      setIsPaused(false);
+      onResume?.();
+      console.log("interval: resume");
     }
-  }, [initialDelay]);
+  }, [isRunning, isPaused, onResume]);
 
-  // Stop the interval completely
   const stop = useCallback(() => {
-    if (intervalId.current) {
-      // console.log("stop");
-      clearInterval(intervalId.current);
-      intervalId.current = null;
-      savedStopCallback.current?.();
-      isRunning.current = false;
-      isPaused.current = false;
+    if (isRunning) {
+      setIsRunning(false);
+      setIsPaused(false);
+      if (intervalId.current) {
+        clearInterval(intervalId.current);
+        intervalId.current = null;
+      }
+      onStop?.();
+      console.log("interval: stop");
     }
-  }, []);
+  }, [isRunning, onStop]);
 
-  // Cleanup on unmount
-  useEffect(() => {
-    return stop; // Cleanup by stopping the interval
-  }, [stop]);
+  const changeDelay = useCallback((newDelay: number | null) => {
+    setDelay(newDelay);
+  }, []);
 
   return {
     start,
     pause,
     resume,
     stop,
-    isRunning: isRunning.current,
-    isPaused: isPaused.current,
+    changeDelay,
+    isRunning,
+    isPaused,
   };
 };
 

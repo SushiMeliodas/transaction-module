@@ -2,7 +2,7 @@ import { Text, AppState } from "react-native";
 import { useRef, useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 
-import moment from "moment";
+import moment, { Moment } from "moment";
 
 import { useAppSelector, useAppDispatch } from "@/hooks/useReduxHooks";
 import useActivityTracker from "@/hooks/useActivityTracker";
@@ -15,10 +15,10 @@ import { formatTime } from "@/utils/datetime";
 
 import ModalBottomSheet from "@/components/ModalBottomSheet";
 
-// const EXPIRED_TIME = 900 * 1000;
-const EXPIRED_TIME = 30 * 1000;
-const REMINDER_TIME = 25 * 1000;
-const BACKGROUND_TIMER = 10 * 1000;
+// const EXPIRED_TIME = 900;
+const EXPIRED_TIME = 30;
+const REMINDER_TIME = 25;
+const BACKGROUND_TIMER = 10;
 
 export const AuthGuard = ({ children }: any) => {
   const router = useRouter();
@@ -42,8 +42,7 @@ export const AuthGuard = ({ children }: any) => {
   const activeTimeRef = useRef<number>(EXPIRED_TIME);
 
   // Background activity state
-  const isReturnLogin = useRef<boolean>(false);
-  const startTime = Date.now();
+  const currentBgTimeRef = useRef<Moment | null>(null);
 
   // Modal state
   const [showActiveCheckModal, setShowActiveCheckModal] =
@@ -54,8 +53,16 @@ export const AuthGuard = ({ children }: any) => {
   const currentDate = moment();
   const currentDateTime = currentDate.format("DD MMM YYYY, HH:mm");
 
+  const isBackgroundTimeExpired = (initialDate: moment.Moment) => {
+    const returnDate = moment(); // Get return date again
+    const diffInSeconds = returnDate.diff(initialDate, "seconds"); // Get difference in seconds
+    return diffInSeconds >= BACKGROUND_TIMER;
+  };
+
   // User activity counter
   const sessionExpired = () => {
+    logout();
+
     stopActiveTimer();
     resetActiveTimer();
 
@@ -66,12 +73,10 @@ export const AuthGuard = ({ children }: any) => {
     if (!showLoggedOffModal) {
       setShowLoggedOffModal(true);
     }
-
-    logout();
   };
 
   const resetSessionTimer = () => {
-    stopActiveTimer();
+    // stopActiveTimer();
     resetActiveTimer();
 
     if (showActiveCheckModal) {
@@ -87,9 +92,9 @@ export const AuthGuard = ({ children }: any) => {
   };
 
   const onActiveStart = () => {
-    activeTimeRef.current -= 1000;
+    activeTimeRef.current -= 1;
 
-    const secondsRemaining = Math.ceil(activeTimeRef.current / 1000);
+    const secondsRemaining = activeTimeRef.current;
 
     if (activeTimeRef.current === REMINDER_TIME) {
       setShowActiveCheckModal(true);
@@ -104,39 +109,13 @@ export const AuthGuard = ({ children }: any) => {
     }
   };
 
-  const onActiveResume = () => {
-    // Rerun the start function
-    onActiveStart();
-  };
-
   const {
     start: startActiveTimer,
     pause: pauseActiveTimer,
     resume: resumeActiveTimer,
     stop: stopActiveTimer,
-    // isRunning: isActiveRunning,
     isPaused: isActivePaused,
-  } = useInterval({ onStart: onActiveStart, onResume: onActiveResume });
-
-  const onBackgroundStart = () => {
-    const elapsedTime = Date.now() - startTime;
-    const backgroundTime = Math.max(
-      0,
-      Math.ceil((BACKGROUND_TIMER - elapsedTime) / 1000)
-    ); // Convert to seconds
-
-    if (backgroundTime <= 0) {
-      isReturnLogin.current = true;
-      stopBackgroundTimer();
-    }
-  };
-
-  const {
-    start: startBackgroundTimer,
-    // pause: pauseBackgroundTimer,
-    // resume: resumeBackgroundTimer,
-    stop: stopBackgroundTimer,
-  } = useInterval({ onStart: onBackgroundStart });
+  } = useInterval({ onTick: onActiveStart });
 
   const handleAppStateChange = (nextAppState: any) => {
     // console.log("appState", appState.current, nextAppState);
@@ -147,39 +126,39 @@ export const AuthGuard = ({ children }: any) => {
         nextAppState === "inactive" || nextAppState === "background";
 
       if (isInactiveOrBackground && !authInactivityOnly) {
+        // Set background current date time
+        currentBgTimeRef.current = currentDate;
+
+        // stopActiveTimer();
+        // pauseActiveTimer();
+        setCameFromInactive(true);
+
         if (showActiveCheckModal) {
           setShowActiveCheckModal(false);
+          pauseActiveTimer();
+          resetActiveTimer();
+        } else {
+          pauseActiveTimer();
         }
-        // stopActiveTimer();
-        pauseActiveTimer();
-        startBackgroundTimer();
-        setCameFromInactive(true);
+
         router.push("/(modal)/inactive");
       } else {
-        if (!authInactivityOnly) {
+        if (authInactivityOnly) {
+          pauseActiveTimer();
+        } else {
           resumeActiveTimer();
 
           if (cameFromInactive) {
-            if (isReturnLogin.current) {
+            if (isBackgroundTimeExpired(currentBgTimeRef.current!)) {
               sessionExpired();
-              isReturnLogin.current = false;
             } else {
-              stopBackgroundTimer();
-
               // Return to previous screen
-              if (router.canGoBack()) {
-                router.back();
-              }
+              if (router.canGoBack()) router.back();
             }
 
             // Reset back from inactive/background
             setCameFromInactive(false);
           }
-        }
-
-        if (authInactivityOnly) {
-          // stopActiveTimer();
-          pauseActiveTimer();
         }
       }
     }
@@ -209,16 +188,17 @@ export const AuthGuard = ({ children }: any) => {
       startActiveTimer();
     }
 
-    return () => {
-      stopActiveTimer();
-    };
+    // return () => {
+    //   stopActiveTimer();
+    // };
   }, [
     isActive,
     isAuthenticated,
     activeTimeRef.current,
+    // isActivePaused,
     // isActiveRunning,
-    // startActiveTimer,
-    // stopActiveTimer,
+    startActiveTimer,
+    stopActiveTimer,
   ]);
 
   useEffect(() => {
@@ -240,16 +220,16 @@ export const AuthGuard = ({ children }: any) => {
     }
   }, [isRedirectLogin]);
 
-  console.log(
-    remainingTime,
-    activeTimeRef.current,
-    `isActivePaused: ${isActivePaused}`,
-    `isAuthenticated: ${isAuthenticated}`,
-    `authActivity: ${authInactivityOnly}`,
-    `isActive: ${isActive}`,
-    `showActiveCheckModal: ${showActiveCheckModal}`,
-    `showLoggedOffModal: ${showLoggedOffModal}`
-  );
+  // console.log(
+  //   remainingTime,
+  //   activeTimeRef.current,
+  //   `isActivePaused: ${isActivePaused}`,
+  //   `isAuthenticated: ${isAuthenticated}`,
+  //   `authActivity: ${authInactivityOnly}`,
+  //   `isActive: ${isActive}`,
+  //   `showActiveCheckModal: ${showActiveCheckModal}`,
+  //   `showLoggedOffModal: ${showLoggedOffModal}`
+  // );
 
   return (
     <>
