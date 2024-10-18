@@ -186,6 +186,8 @@ export const AuthGuard = ({ children }: any) => {
   useEffect(() => {
     if (isAuthenticated && isActive && activeTimeRef.current > 0) {
       startActiveTimer();
+    } else {
+      stopActiveTimer();
     }
 
     // return () => {
@@ -215,6 +217,7 @@ export const AuthGuard = ({ children }: any) => {
   }, [isReactiveIdle]);
 
   useEffect(() => {
+    // For network error redirect
     if (isRedirectLogin) {
       sessionExpired();
     }
