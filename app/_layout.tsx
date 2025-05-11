@@ -15,7 +15,7 @@ import { NetworkStatusProvider } from "@/context/NetworkStatus";
 import { AuthGuard } from "@/context/AuthGuard";
 
 import "react-native-reanimated";
-
+import "./../global.css";
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 // SplashScreen.preventAutoHideAsync();
 
