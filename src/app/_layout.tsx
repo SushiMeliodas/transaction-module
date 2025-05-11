@@ -1,0 +1,68 @@
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { useColorScheme } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Provider } from "react-redux";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import Toast from "react-native-toast-message";
+
+import store from "@/src/redux";
+
+import { UserInactivityProvider } from "@/src/context/UserInactivity";
+import { NetworkStatusProvider } from "@/src/context/NetworkStatus";
+import { AuthGuard } from "@/src/context/AuthGuard";
+
+import "react-native-reanimated";
+import "./../global.css";
+
+// Prevent the splash screen from auto-hiding before asset loading is complete.
+// SplashScreen.preventAutoHideAsync();
+
+export default function RootLayout() {
+  const colorScheme = useColorScheme();
+
+  return (
+    <>
+      <Provider store={store}>
+        <GestureHandlerRootView>
+          <BottomSheetModalProvider>
+            <NetworkStatusProvider>
+              <AuthGuard>
+                {/* <UserInactivityProvider> */}
+                <SafeAreaProvider>
+                  <Stack>
+                    <Stack.Screen
+                      name="index"
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name="(auth)"
+                      options={{
+                        gestureEnabled: false, // Handle not allow login swipe back
+                        headerShown: false,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="(root)"
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name="(modal)/inactive"
+                      options={{ headerShown: false, animation: "none" }}
+                    />
+                    <Stack.Screen name="+not-found" />
+                  </Stack>
+                </SafeAreaProvider>
+                {/* </UserInactivityProvider> */}
+              </AuthGuard>
+            </NetworkStatusProvider>
+          </BottomSheetModalProvider>
+        </GestureHandlerRootView>
+      </Provider>
+      <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
+      <Toast topOffset={60} />
+    </>
+  );
+}
