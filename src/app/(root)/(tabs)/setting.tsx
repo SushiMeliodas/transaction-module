@@ -1,11 +1,11 @@
 import { Text, View, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import useAuthorization from "@/src/hooks/useAuthorization";
+import useAuthorization from "@/hooks/useAuthorization";
 
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
-import Card from "@/src/components/common/Card";
+import Card from "@/components/common/Card";
 
 const Setting = () => {
   const { logout } = useAuthorization();

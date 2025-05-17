@@ -1,4 +1,4 @@
-import { HistoryItem } from "@/src/types/data.type";
+import { HistoryItem } from "@/types/data.type";
 
 export const history: HistoryItem[] = [
   {

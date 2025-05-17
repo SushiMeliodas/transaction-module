@@ -3,7 +3,7 @@ import { PanResponder } from "react-native";
 
 import { useAppDispatch } from "./useReduxHooks";
 
-import { authSliceActions } from "@/src/redux/slices/authSlice";
+import { authSliceActions } from "@/redux/slices/authSlice";
 
 const useActivityTracker = () => {
   const dispatch = useAppDispatch();

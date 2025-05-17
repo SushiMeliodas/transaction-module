@@ -8,20 +8,20 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 
-import { fetchHistory } from "@/src/redux/actions/financeActions";
-import { financeSliceActions } from "@/src/redux/slices/financeSlice";
-import { authSliceActions } from "@/src/redux/slices/authSlice";
-import { generalSliceActions } from "@/src/redux/slices/generalSlice";
+import { fetchHistory } from "@/redux/actions/financeActions";
+import { financeSliceActions } from "@/redux/slices/financeSlice";
+import { authSliceActions } from "@/redux/slices/authSlice";
+import { generalSliceActions } from "@/redux/slices/generalSlice";
 
-import { useAppDispatch, useAppSelector } from "@/src/hooks/useReduxHooks";
-import useAuthorization from "@/src/hooks/useAuthorization";
-import useActivityTracker from "@/src/hooks/useActivityTracker";
+import { useAppDispatch, useAppSelector } from "@/hooks/useReduxHooks";
+import useAuthorization from "@/hooks/useAuthorization";
+import useActivityTracker from "@/hooks/useActivityTracker";
 
-import { HistoryItem, MergedHistoryByDate } from "@/src/types/data.type";
+import { HistoryItem, MergedHistoryByDate } from "@/types/data.type";
 
-import { getTransColor } from "@/src/utils";
-import { formatAmount } from "@/src/utils/number";
-import { formatDate } from "@/src/utils/datetime";
+import { getTransColor } from "@/utils";
+import { formatAmount } from "@/utils/number";
+import { formatDate } from "@/utils/datetime";
 
 import Card from "./common/Card";
 import UnmaskText from "./common/UnmaskText";

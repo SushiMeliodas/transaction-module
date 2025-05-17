@@ -1,4 +1,4 @@
-import { HistoryItem, MergedHistoryByDate } from "@/src/types/data.type";
+import { HistoryItem, MergedHistoryByDate } from "@/types/data.type";
 
 export const mergeHistoryByDate = (
   history: HistoryItem[]

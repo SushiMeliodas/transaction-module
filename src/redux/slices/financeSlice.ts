@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { FinanceState, HistoryItem } from "@/src/types/data.type";
-import { FetchHistoryResponse } from "@/src/types/finance.type";
+import { FinanceState, HistoryItem } from "@/types/data.type";
+import { FetchHistoryResponse } from "@/types/finance.type";
 
 import { fetchHistory } from "../actions/financeActions";
 

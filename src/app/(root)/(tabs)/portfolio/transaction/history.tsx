@@ -1,12 +1,12 @@
 import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { useAppSelector } from "@/src/hooks/useReduxHooks";
+import { useAppSelector } from "@/hooks/useReduxHooks";
 
-import { formatAmount } from "@/src/utils/number";
+import { formatAmount } from "@/utils/number";
 
-import Timeline from "@/src/components/Timeline";
-import UnmaskText from "@/src/components/common/UnmaskText";
+import Timeline from "@/components/Timeline";
+import UnmaskText from "@/components/common/UnmaskText";
 
 const History = () => {
   const balanceState = useAppSelector((state) => state.finance.balance);

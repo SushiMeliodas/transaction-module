@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { GeneralState } from "@/src/types/data.type";
+import { GeneralState } from "@/types/data.type";
 
 const initialState: GeneralState = {
   hideTabBar: false,

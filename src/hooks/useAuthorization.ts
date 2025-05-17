@@ -9,7 +9,7 @@ import { useRouter } from "expo-router";
 import { useAppDispatch } from "./useReduxHooks";
 import useToast from "./useToast";
 
-import { authSliceActions } from "@/src/redux/slices/authSlice";
+import { authSliceActions } from "@/redux/slices/authSlice";
 
 const useAuthorization = () => {
   const router = useRouter();

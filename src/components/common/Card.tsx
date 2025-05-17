@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 
-import { CardProps } from "@/src/types/component.type";
+import { CardProps } from "@/types/component.type";
 
 const Card = (props: CardProps) => {
   const {

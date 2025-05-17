@@ -2,12 +2,12 @@ import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 
-import { useAppSelector } from "@/src/hooks/useReduxHooks";
+import { useAppSelector } from "@/hooks/useReduxHooks";
 
-import { getTransColor } from "@/src/utils";
-import { formatAmount } from "@/src/utils/number";
+import { getTransColor } from "@/utils";
+import { formatAmount } from "@/utils/number";
 
-import ActionButton from "@/src/components/common/ActionButton";
+import ActionButton from "@/components/common/ActionButton";
 
 const HistoryDetail = () => {
   const historyDetail = useAppSelector(

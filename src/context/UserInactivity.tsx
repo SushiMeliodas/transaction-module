@@ -5,15 +5,15 @@ import { useRouter } from "expo-router";
 
 import moment from "moment";
 
-import { useAppSelector, useAppDispatch } from "@/src/hooks/useReduxHooks";
-import useActivityTracker from "@/src/hooks/useActivityTracker";
-import useAuthorization from "@/src/hooks/useAuthorization";
+import { useAppSelector, useAppDispatch } from "@/hooks/useReduxHooks";
+import useActivityTracker from "@/hooks/useActivityTracker";
+import useAuthorization from "@/hooks/useAuthorization";
 
-import { authSliceActions } from "@/src/redux/slices/authSlice";
+import { authSliceActions } from "@/redux/slices/authSlice";
 
-import { formatTime } from "@/src/utils/datetime";
+import { formatTime } from "@/utils/datetime";
 
-import ModalBottomSheet from "@/src/components/ModalBottomSheet";
+import ModalBottomSheet from "@/components/ModalBottomSheet";
 
 // const EXPIRED_TIME = 900 * 1000;
 const EXPIRED_TIME = 30 * 1000;

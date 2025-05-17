@@ -2,12 +2,12 @@ import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 
-import { useAppDispatch, useAppSelector } from "@/src/hooks/useReduxHooks";
-import useAuthorization from "@/src/hooks/useAuthorization";
+import { useAppDispatch, useAppSelector } from "@/hooks/useReduxHooks";
+import useAuthorization from "@/hooks/useAuthorization";
 
-import { authSliceActions } from "@/src/redux/slices/authSlice";
+import { authSliceActions } from "@/redux/slices/authSlice";
 
-import ActionButton from "@/src/components/common/ActionButton";
+import ActionButton from "@/components/common/ActionButton";
 
 const Login = () => {
   const { authenticate } = useAuthorization();
@@ -21,7 +21,7 @@ const Login = () => {
 
     if (authResult && authResult.success) {
       dispatch(authSliceActions.setAuthenticatedData());
-      return router.replace("/(root)/(tabs)/history");
+      return router.replace("/home");
     }
   };
 

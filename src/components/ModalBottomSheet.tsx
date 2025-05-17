@@ -8,7 +8,7 @@ import {
 } from "@gorhom/bottom-sheet";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
-import { ModalBottomSheetProps } from "@/src/types/component.type";
+import { ModalBottomSheetProps } from "@/types/component.type";
 
 import ActionButton from "./common/ActionButton";
 

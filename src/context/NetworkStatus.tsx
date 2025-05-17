@@ -3,10 +3,10 @@ import { useEffect, useRef } from "react";
 import { usePathname } from "expo-router";
 import NetInfo, { NetInfoState } from "@react-native-community/netinfo";
 
-import { useAppDispatch, useAppSelector } from "@/src/hooks/useReduxHooks";
-import { authSliceActions } from "@/src/redux/slices/authSlice";
+import { useAppDispatch, useAppSelector } from "@/hooks/useReduxHooks";
+import { authSliceActions } from "@/redux/slices/authSlice";
 
-import useToast from "@/src/hooks/useToast";
+import useToast from "@/hooks/useToast";
 
 const NetworkStatusProvider = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();

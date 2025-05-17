@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import { Tabs } from "expo-router";
 import { View, Animated } from "react-native";
 
-import { useAppSelector } from "@/src/hooks/useReduxHooks";
+import { useAppSelector } from "@/hooks/useReduxHooks";
 
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
@@ -20,39 +20,39 @@ const TabIcon = ({ name, focused }: TabIconProps) => (
 );
 
 const Layout = () => {
-  const hideTabBar = useAppSelector((state) => state.general.hideTabBar);
+  // const hideTabBar = useAppSelector((state) => state.general.hideTabBar);
 
   const tabBarHeight = 85;
-  const tabBarPosition = useRef(new Animated.Value(0)).current; // Start with tab bar visible (0 offset)
-  const [isTabBarVisible, setIsTabBarVisible] = useState(true);
+  // const tabBarPosition = useRef(new Animated.Value(0)).current; // Start with tab bar visible (0 offset)
+  // const [isTabBarVisible, setIsTabBarVisible] = useState(true);
 
-  const hideTabBarAnimated = () => {
-    Animated.timing(tabBarPosition, {
-      toValue: tabBarHeight, // Slide tab bar down by its height (hide)
-      duration: 300,
-      useNativeDriver: true,
-    }).start(() => {
-      // Once the animation finishes, we hide the tab bar completely
-      setIsTabBarVisible(false);
-    });
-  };
+  // const hideTabBarAnimated = () => {
+  //   Animated.timing(tabBarPosition, {
+  //     toValue: tabBarHeight, // Slide tab bar down by its height (hide)
+  //     duration: 300,
+  //     useNativeDriver: true,
+  //   }).start(() => {
+  //     // Once the animation finishes, we hide the tab bar completely
+  //     setIsTabBarVisible(false);
+  //   });
+  // };
 
-  const showTabBarAnimated = () => {
-    setIsTabBarVisible(true);
-    Animated.timing(tabBarPosition, {
-      toValue: 0, // Slide tab bar back up (show)
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-  };
+  // const showTabBarAnimated = () => {
+  //   setIsTabBarVisible(true);
+  //   Animated.timing(tabBarPosition, {
+  //     toValue: 0, // Slide tab bar back up (show)
+  //     duration: 300,
+  //     useNativeDriver: true,
+  //   }).start();
+  // };
 
-  useEffect(() => {
-    if (hideTabBar) {
-      hideTabBarAnimated(); // Hide the tab bar when `hideTabBar` is true
-    } else {
-      showTabBarAnimated(); // Show the tab bar when `hideTabBar` is false
-    }
-  }, [hideTabBar]);
+  // useEffect(() => {
+  //   if (hideTabBar) {
+  //     hideTabBarAnimated(); // Hide the tab bar when `hideTabBar` is true
+  //   } else {
+  //     showTabBarAnimated(); // Show the tab bar when `hideTabBar` is false
+  //   }
+  // }, [hideTabBar]);
 
   return (
     <Tabs
@@ -66,19 +66,30 @@ const Layout = () => {
         tabBarStyle: {
           // height: 85,
           // display: hideTabBar ? "none" : "flex",
-          height: tabBarHeight,
-          transform: [
-            { translateY: tabBarPosition }, // Apply sliding animation
-          ],
-          display: isTabBarVisible ? "flex" : "none",
+          // height: tabBarHeight,
+          // transform: [
+          //   { translateY: tabBarPosition }, // Apply sliding animation
+          // ],
+          // display: isTabBarVisible ? "flex" : "none",
         },
       }}
     >
       <Tabs.Screen
-        name="history"
+        name="home"
         options={{
-          title: "History",
-          headerTitle: "History",
+          title: "Home",
+          headerTitle: "Home",
+          // headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <TabIcon name="home" focused={focused} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="portfolio"
+        options={{
+          title: "Portfolio",
+          headerTitle: "Portfolio",
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabIcon name="history" focused={focused} />

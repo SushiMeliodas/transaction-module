@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 
-import useAuthorization from "@/src/hooks/useAuthorization";
-import { useAppDispatch, useAppSelector } from "@/src/hooks/useReduxHooks";
-import useActivityTracker from "@/src/hooks/useActivityTracker";
+import useAuthorization from "@/hooks/useAuthorization";
+import { useAppDispatch, useAppSelector } from "@/hooks/useReduxHooks";
+import useActivityTracker from "@/hooks/useActivityTracker";
 
-import { authSliceActions } from "@/src/redux/slices/authSlice";
+import { authSliceActions } from "@/redux/slices/authSlice";
 
-import { UnmaskTextProps } from "@/src/types/component.type";
+import { UnmaskTextProps } from "@/types/component.type";
 
 import { FontAwesome6 } from "@expo/vector-icons";
 

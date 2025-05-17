@@ -8,11 +8,11 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import Toast from "react-native-toast-message";
 
-import store from "@/src/redux";
+import store from "@/redux";
 
-import { UserInactivityProvider } from "@/src/context/UserInactivity";
-import { NetworkStatusProvider } from "@/src/context/NetworkStatus";
-import { AuthGuard } from "@/src/context/AuthGuard";
+import { UserInactivityProvider } from "@/context/UserInactivity";
+import { NetworkStatusProvider } from "@/context/NetworkStatus";
+import { AuthGuard } from "@/context/AuthGuard";
 
 import "react-native-reanimated";
 import "./../global.css";
@@ -61,7 +61,7 @@ export default function RootLayout() {
           </BottomSheetModalProvider>
         </GestureHandlerRootView>
       </Provider>
-      <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
+      <StatusBar style={colorScheme || "light"} />
       <Toast topOffset={60} />
     </>
   );

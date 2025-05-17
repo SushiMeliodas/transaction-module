@@ -1,15 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { RootState } from "..";
-import {
-  FetchHistoryParams,
-  FetchHistoryResponse,
-} from "@/src/types/finance.type";
+import { FetchHistoryParams, FetchHistoryResponse } from "@/types/finance.type";
 
-import { history } from "@/src/constant";
+import { history } from "@/constant";
 
-import { waitForTimeout } from "@/src/utils";
-import { mergeHistoryByDate } from "@/src/utils/object";
+import { waitForTimeout } from "@/utils";
+import { mergeHistoryByDate } from "@/utils/object";
 
 export const fetchHistory = createAsyncThunk<
   FetchHistoryResponse,
