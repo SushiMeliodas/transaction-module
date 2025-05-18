@@ -79,7 +79,7 @@ const Layout = () => {
         options={{
           title: "Home",
           headerTitle: "Home",
-          // headerShown: false,
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabIcon name="home" focused={focused} />
           ),
