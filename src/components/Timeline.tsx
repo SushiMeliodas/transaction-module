@@ -23,7 +23,7 @@ import { getTransColor } from "@/utils";
 import { formatAmount } from "@/utils/number";
 import { formatDate } from "@/utils/datetime";
 
-import Card from "./common/Card";
+import { Card } from "./common/Card";
 import UnmaskText from "./common/UnmaskText";
 
 // Types
@@ -59,14 +59,14 @@ const TimelineBranch = (props: TimelineBranchProps) => {
       if (authRes.success) {
         dispatch(financeSliceActions.setHistoryDetail(detail));
         dispatch(authSliceActions.setRevealSensitiveData(true));
-        router.navigate("/(root)/history-detail");
+        router.navigate("/transaction/detail");
         return;
       }
     }
 
     if (authState.isSensitiveDataVisible) {
       dispatch(financeSliceActions.setHistoryDetail(detail));
-      router.navigate("/(root)/history-detail");
+      router.navigate("/transaction/detail");
     }
 
     reActiveIdle();
@@ -200,7 +200,7 @@ const Timeline = (props: TimelineProps) => {
       scrollEventThrottle={16}
       className="p-0.5" // mb-20 for end display
     >
-      <Card cardClassName={{ card: className }}>
+      <Card className={`p-4 ${className}`}>
         <View className="flex items-center mb-20">
           {history.items.map((timeline, index) => (
             <Fragment key={timeline.date}>

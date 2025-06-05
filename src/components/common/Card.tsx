@@ -1,43 +1,19 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text } from "react-native";
 
-import { CardProps } from "@/types/component.type";
+interface CardProps {
+  children: React.ReactNode;
+  className?: string;
+}
 
-const Card = (props: CardProps) => {
-  const {
-    children,
-    title,
-    onPress,
-    cardClassName = { card: "", title: "", content: "" },
-  } = props;
+export const Card = (props: CardProps) => {
+  const { children, className } = props;
 
   return (
     <View
-      className={`bg-white rounded-lg shadow-md p-4  ${cardClassName.card}`}
+      className={`shadow-lg shadow-black/40 bg-surfaceMint rounded-2xl ${className}`}
     >
-      {/* Card Title */}
-      {title && (
-        <Text
-          className={`text-lg font-semibold text-gray-800 mb-2 ${cardClassName.title}`}
-        >
-          {title}
-        </Text>
-      )}
-
-      {/* Card Content */}
-      <View className={`p-3 ${cardClassName.content}`}>{children}</View>
-
-      {/* Optional Button */}
-      {onPress && (
-        <TouchableOpacity
-          onPress={onPress}
-          className="bg-blue-500 rounded-md py-2 px-4 self-start"
-        >
-          <Text className="text-white text-center font-medium">Learn More</Text>
-        </TouchableOpacity>
-      )}
+      {children}
     </View>
   );
 };
-
-export default Card;

@@ -25,6 +25,8 @@ export default function RootLayout() {
 
   return (
     <>
+      <StatusBar style={colorScheme === "light" ? "dark" : "light"} />
+      <Toast topOffset={60} />
       <Provider store={store}>
         <GestureHandlerRootView>
           <BottomSheetModalProvider>
@@ -33,8 +35,12 @@ export default function RootLayout() {
                 {/* <UserInactivityProvider> */}
                 <SafeAreaProvider>
                   <Stack>
-                    <Stack.Screen
+                    {/* <Stack.Screen
                       name="index"
+                      options={{ headerShown: false }}
+                    /> */}
+                    <Stack.Screen
+                      name="(protected)"
                       options={{ headerShown: false }}
                     />
                     <Stack.Screen
@@ -43,10 +49,6 @@ export default function RootLayout() {
                         gestureEnabled: false, // Handle not allow login swipe back
                         headerShown: false,
                       }}
-                    />
-                    <Stack.Screen
-                      name="(root)"
-                      options={{ headerShown: false }}
                     />
                     <Stack.Screen
                       name="(modal)/inactive"
@@ -61,8 +63,6 @@ export default function RootLayout() {
           </BottomSheetModalProvider>
         </GestureHandlerRootView>
       </Provider>
-      <StatusBar style={colorScheme || "light"} />
-      <Toast topOffset={60} />
     </>
   );
 }

@@ -5,7 +5,7 @@ import useAuthorization from "@/hooks/useAuthorization";
 
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
-import Card from "@/components/common/Card";
+import { Card } from "@/components/common/Card";
 
 const Setting = () => {
   const { logout } = useAuthorization();
@@ -35,7 +35,7 @@ const Setting = () => {
       </View>
 
       <View className="p-3">
-        <Card>
+        <Card className="p-4">
           <View className="mb-8">
             {messages.map((message, index) => (
               <View

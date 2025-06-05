@@ -1,8 +1,11 @@
 import { useRef, useEffect, useState } from "react";
 import { Tabs } from "expo-router";
 import { View, Animated } from "react-native";
+import { Feather } from "@expo/vector-icons";
 
 import { useAppSelector } from "@/hooks/useReduxHooks";
+
+import HomeHeader from "@/features/home/components/HomeHeader";
 
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
@@ -19,7 +22,7 @@ const TabIcon = ({ name, focused }: TabIconProps) => (
   </View>
 );
 
-const Layout = () => {
+const TabsLayout = () => {
   // const hideTabBar = useAppSelector((state) => state.general.hideTabBar);
 
   const tabBarHeight = 85;
@@ -57,14 +60,14 @@ const Layout = () => {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "white",
-        tabBarInactiveTintColor: "white",
+        // tabBarActiveTintColor: "white",
+        // tabBarInactiveTintColor: "white",
         tabBarShowLabel: true,
         tabBarLabelStyle: {
           color: "black",
         },
         tabBarStyle: {
-          // height: 85,
+          // height: "auto",
           // display: hideTabBar ? "none" : "flex",
           // height: tabBarHeight,
           // transform: [
@@ -75,24 +78,25 @@ const Layout = () => {
       }}
     >
       <Tabs.Screen
-        name="home"
+        name="(home)/index"
         options={{
           title: "Home",
-          headerTitle: "Home",
+          // headerTitle: "Home",
           headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <TabIcon name="home" focused={focused} />
+          // header: () => <HomeHeader />,
+          tabBarIcon: ({ color, focused }) => (
+            <Feather name="home" color={color} size={24} />
           ),
         }}
       />
       <Tabs.Screen
-        name="portfolio"
+        name="transaction"
         options={{
-          title: "Portfolio",
-          headerTitle: "Portfolio",
+          title: "Transaction",
+          headerTitle: "Transaction",
           headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <TabIcon name="history" focused={focused} />
+          tabBarIcon: ({ color, focused }) => (
+            <Feather name="clock" color={color} size={24} />
           ),
         }}
       />
@@ -102,8 +106,8 @@ const Layout = () => {
           title: "Setting",
           headerTitle: "Setting",
           headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <TabIcon name="settings" focused={focused} />
+          tabBarIcon: ({ color, focused }) => (
+            <Feather name="settings" color={color} size={24} />
           ),
         }}
       />
@@ -111,4 +115,4 @@ const Layout = () => {
   );
 };
 
-export default Layout;
+export default TabsLayout;

@@ -21,7 +21,7 @@ const Login = () => {
 
     if (authResult && authResult.success) {
       dispatch(authSliceActions.setAuthenticatedData());
-      return router.replace("/home");
+      return router.replace("/");
     }
   };
 
