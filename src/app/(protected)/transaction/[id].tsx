@@ -4,10 +4,9 @@ import { router } from "expo-router";
 
 import { useAppSelector } from "@/hooks/useReduxHooks";
 
-import { getTransColor } from "@/utils";
 import { formatAmount } from "@/utils/number";
 
-import ActionButton from "@/components/common/ActionButton";
+import Button from "@/components/common/Button";
 
 const HistoryDetail = () => {
   const historyDetail = useAppSelector(
@@ -63,12 +62,10 @@ const HistoryDetail = () => {
           ))}
         </View>
 
-        <View className="items-center mt-auto mb-5">
-          <ActionButton
-            title="Back"
-            onPress={onPressBack}
-            className="w-10/12 mt-12 bg-slate-800"
-          />
+        <View className="items-center px-5 mt-auto mb-5">
+          <Button className="w-full" onPress={onPressBack}>
+            <Text className="text-white text-center text-xl">Back</Text>
+          </Button>
         </View>
       </View>
     </SafeAreaView>

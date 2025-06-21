@@ -7,7 +7,7 @@ import useAuthorization from "@/hooks/useAuthorization";
 
 import { authSliceActions } from "@/redux/slices/authSlice";
 
-import ActionButton from "@/components/common/ActionButton";
+import Button from "@/components/common/Button";
 
 const Login = () => {
   const { authenticate } = useAuthorization();
@@ -32,12 +32,15 @@ const Login = () => {
           Login to view your Transaction history
         </Text>
 
-        <ActionButton
+        <Button
+          className="w-full"
           disabled={isLoginDisabled}
-          title="Login"
           onPress={onLoginPress}
-          className="w-10/12 mb-8 bg-slate-800"
-        />
+        >
+          <Text className="text-center text-white text-lg font-semibold">
+            Login with Biometric
+          </Text>
+        </Button>
 
         {isLoginDisabled && (
           <Text className="text-red-500 font-bold text-base">

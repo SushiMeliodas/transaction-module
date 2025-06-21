@@ -34,8 +34,8 @@ interface ActionButtonProps {
   variant?:
     | "primary"
     | "secondary"
-    | "danger"
-    | "success"
+    // | "danger"
+    // | "success"
     | "outline"
     | "white";
   [key: string]: any; // Allow additional props
