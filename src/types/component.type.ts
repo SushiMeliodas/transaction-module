@@ -43,24 +43,3 @@ export interface UnmaskTextProps {
   hideMaskBtn?: boolean;
   textColor?: string;
 }
-
-export interface BaseModalBottomSheetProps {
-  title: string;
-  message?: string;
-  content?: React.ReactNode;
-  open: boolean;
-  onClose?: () => void;
-  onSubmit?: () => void;
-  className?: string;
-  showCloseIcon?: boolean;
-  hideAction?: boolean;
-  actionProps?: ModalActionProps[];
-  modalHeight?: number;
-}
-
-export type ModalBottomSheetProps =
-  | (BaseModalBottomSheetProps & { showCloseIcon: true; onClose: () => void })
-  | (BaseModalBottomSheetProps & {
-      showCloseIcon?: false;
-      onClose?: () => void;
-    });

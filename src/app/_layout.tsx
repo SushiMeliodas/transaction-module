@@ -10,7 +10,6 @@ import Toast from "react-native-toast-message";
 
 import store from "@/redux";
 
-import { UserInactivityProvider } from "@/context/UserInactivity";
 import { NetworkStatusProvider } from "@/context/NetworkStatus";
 import { AuthGuard } from "@/context/AuthGuard";
 
@@ -32,7 +31,6 @@ export default function RootLayout() {
           <BottomSheetModalProvider>
             <NetworkStatusProvider>
               <AuthGuard>
-                {/* <UserInactivityProvider> */}
                 <SafeAreaProvider>
                   <Stack>
                     {/* <Stack.Screen
@@ -57,7 +55,6 @@ export default function RootLayout() {
                     <Stack.Screen name="+not-found" />
                   </Stack>
                 </SafeAreaProvider>
-                {/* </UserInactivityProvider> */}
               </AuthGuard>
             </NetworkStatusProvider>
           </BottomSheetModalProvider>

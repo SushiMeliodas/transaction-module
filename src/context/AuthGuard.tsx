@@ -1,4 +1,4 @@
-import { Text, AppState } from "react-native";
+import { Text, AppState, View } from "react-native";
 import { useRef, useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 
@@ -13,9 +13,9 @@ import { authSliceActions } from "@/redux/slices/authSlice";
 
 import { formatTime } from "@/utils/datetime";
 
-import ModalBottomSheet from "@/components/ModalBottomSheet";
+import BottomDrawer from "@/components/BottomDrawer";
 
-const EXPIRED_TIME = 90000000;
+const EXPIRED_TIME = 900000000;
 // const EXPIRED_TIME = 30;
 const REMINDER_TIME = 25;
 const BACKGROUND_TIMER = 10;
@@ -45,9 +45,9 @@ export const AuthGuard = ({ children }: any) => {
   const currentBgTimeRef = useRef<Moment | null>(null);
 
   // Modal state
-  const [showActiveCheckModal, setShowActiveCheckModal] =
+  const [isActiveDrawerShow, setIsActiveDrawerShow] = useState<boolean>(false);
+  const [isLoggedOffDrawerShow, setIsLoggedOffDrawerShow] =
     useState<boolean>(false);
-  const [showLoggedOffModal, setShowLoggedOffModal] = useState<boolean>(false);
 
   // Moment
   const currentDate = moment();
@@ -66,12 +66,12 @@ export const AuthGuard = ({ children }: any) => {
     stopActiveTimer();
     resetActiveTimer();
 
-    if (showActiveCheckModal) {
-      setShowActiveCheckModal(false);
+    if (isActiveDrawerShow) {
+      setIsActiveDrawerShow(false);
     }
 
-    if (!showLoggedOffModal) {
-      setShowLoggedOffModal(true);
+    if (!isLoggedOffDrawerShow) {
+      setIsLoggedOffDrawerShow(true);
     }
   };
 
@@ -79,8 +79,8 @@ export const AuthGuard = ({ children }: any) => {
     // stopActiveTimer();
     resetActiveTimer();
 
-    if (showActiveCheckModal) {
-      setShowActiveCheckModal(false);
+    if (isActiveDrawerShow) {
+      setIsActiveDrawerShow(false);
     }
 
     dispatch(authSliceActions.setAuthActive(true)); // Ensure the timer starts again
@@ -97,7 +97,7 @@ export const AuthGuard = ({ children }: any) => {
     const secondsRemaining = activeTimeRef.current;
 
     if (activeTimeRef.current === REMINDER_TIME) {
-      setShowActiveCheckModal(true);
+      setIsActiveDrawerShow(true);
     }
 
     if (activeTimeRef.current <= REMINDER_TIME) {
@@ -133,8 +133,8 @@ export const AuthGuard = ({ children }: any) => {
         // pauseActiveTimer();
         setCameFromInactive(true);
 
-        if (showActiveCheckModal) {
-          setShowActiveCheckModal(false);
+        if (isActiveDrawerShow) {
+          setIsActiveDrawerShow(false);
           pauseActiveTimer();
           resetActiveTimer();
         } else {
@@ -204,7 +204,7 @@ export const AuthGuard = ({ children }: any) => {
   ]);
 
   useEffect(() => {
-    if (authInactivityOnly && showActiveCheckModal) {
+    if (authInactivityOnly && isActiveDrawerShow) {
       resetSessionTimer();
     }
   }, [authInactivityOnly]);
@@ -230,48 +230,49 @@ export const AuthGuard = ({ children }: any) => {
   //   `isAuthenticated: ${isAuthenticated}`,
   //   `authActivity: ${authInactivityOnly}`,
   //   `isActive: ${isActive}`,
-  //   `showActiveCheckModal: ${showActiveCheckModal}`,
-  //   `showLoggedOffModal: ${showLoggedOffModal}`
+  //   `isActiveDrawerShow: ${isActiveDrawerShow}`,
+  //   `isLoggedOffDrawerShow: ${isLoggedOffDrawerShow}`
   // );
 
   return (
     <>
       {children}
-      <ModalBottomSheet
-        open={showActiveCheckModal}
-        title="Are you still there?"
-        content={
-          <>
-            <Text className="text-white font-bold text-2xl">
-              {formatTime(remainingTime)}
-            </Text>
-            <Text className="text-white mb-5 text-xl">
-              You will be logged out due to inactivity.
-            </Text>
-          </>
-        }
-        actionProps={[
-          { label: "Yep, still here!", callback: resetSessionTimer },
-        ]}
-      />
-      <ModalBottomSheet
-        open={showLoggedOffModal}
-        onClose={() => setShowLoggedOffModal(false)}
-        title="Session Timeout"
-        content={
-          <>
-            <Text className="text-white mb-5 text-xl">
-              You’ve been logged out due to inactivity or a network error.
-              Please log in again to continue.
-            </Text>
-            <Text className="text-white font-bold text-xl">
-              {currentDateTime}
-            </Text>
-          </>
-        }
-        hideAction
-        showCloseIcon
-      />
+      {/* Reminder drawer */}
+      <BottomDrawer open={isActiveDrawerShow}>
+        <BottomDrawer.Title>Are you still there?</BottomDrawer.Title>
+        <View className="flex-1 p-3 gap-4">
+          <Text className="text-white font-bold text-2xl">
+            {formatTime(remainingTime)}
+          </Text>
+          <Text className="text-white text-xl">
+            You will be logged out due to inactivity.
+          </Text>
+        </View>
+        <BottomDrawer.ActionButton
+          onPress={resetSessionTimer}
+          variant="secondary"
+          className="mb-14"
+        >
+          <Text className="text-primary text-xl text-center">
+            Yep, still here!
+          </Text>
+        </BottomDrawer.ActionButton>
+      </BottomDrawer>
+
+      {/* Timeout drawer */}
+      <BottomDrawer open={isLoggedOffDrawerShow}>
+        <BottomDrawer.CloseButton
+          onClose={() => setIsLoggedOffDrawerShow(false)}
+        />
+        <BottomDrawer.Title>Session Timeout</BottomDrawer.Title>
+        <View className="flex-1 p-3 gap-4">
+          <Text className="text-white font-bold text-xl">
+            You’ve been logged out due to inactivity or a network error. Please
+            log in again to continue.
+          </Text>
+          <Text className="text-white text-xl">{currentDateTime}</Text>
+        </View>
+      </BottomDrawer>
     </>
   );
 };
